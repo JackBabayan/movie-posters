@@ -4,6 +4,8 @@
   padding: 15px 0;
   border-top: 1px solid var(--text-color);
   margin-top: var(--globalWrapPadding);
+  position: relative;
+  z-index: 11;
 
   .container{
     max-width: var(--maxWidth);

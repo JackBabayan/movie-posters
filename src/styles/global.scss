@@ -148,6 +148,10 @@ ul {
 }
 
 .btnGlobal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--m20);
   padding: 10px var(--m25);
   border: 1px solid var(--text-color);
   border-radius: var(--borderLg);

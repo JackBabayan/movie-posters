@@ -9,6 +9,7 @@ import { Credits } from '@/types';
 import { LoadingSpinner } from '../../common/LoadingSpinner';
 import { ErrorMessage } from '../../common/ErrorMessage';
 import { UI } from '@/lib/utils/constants';
+import styles from './styles.module.scss';
 
 interface CastListProps {
   movieId: number;
@@ -70,7 +71,7 @@ export const CastList: React.FC<CastListProps> = ({ movieId }) => {
 
   if (isLoading) {
     return (
-      <div className="cast-list__loading">
+      <div className={styles.loading}>
         <LoadingSpinner />
       </div>
     );
@@ -81,15 +82,15 @@ export const CastList: React.FC<CastListProps> = ({ movieId }) => {
   }
 
   if (!filteredCast.length) {
-    return <div className="cast-list__empty">Информация об актерах отсутствует</div>;
+    return <div className={styles.empty}>Информация об актерах отсутствует</div>;
   }
 
   return (
-    <div className="cast-list">
-      <h2 className="cast-list__title">В ролях</h2>
+    <div className={styles.castList}>
+      <h2 className={styles.title}>В ролях</h2>
 
       <motion.div
-        className="cast-list__grid"
+        className={styles.grid}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -98,11 +99,11 @@ export const CastList: React.FC<CastListProps> = ({ movieId }) => {
           {displayedCast.map((actor) => (
             <motion.div
               key={actor.id}
-              className="cast-list__item"
+              className={styles.item}
               variants={itemVariants}
               layout
             >
-              <div className="cast-list__photo">
+              <div className={styles.photo}>
                 <Image
                   src={getImageUrl(actor.profile_path, 'w185')}
                   alt={actor.name}
@@ -113,9 +114,9 @@ export const CastList: React.FC<CastListProps> = ({ movieId }) => {
                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
                 />
               </div>
-              <div className="cast-list__info">
-                <h3 className="cast-list__actor-name">{actor.name}</h3>
-                <p className="cast-list__character">{actor.character}</p>
+              <div className={styles.info}>
+                <h3 className={styles.actorName}>{actor.name}</h3>
+                <p className={styles.character}>{actor.character}</p>
               </div>
             </motion.div>
           ))}
@@ -124,12 +125,12 @@ export const CastList: React.FC<CastListProps> = ({ movieId }) => {
 
       {filteredCast.length > initialCastToShow && (
         <button
-          className="cast-list__toggle-button"
+          className={styles.toggleButton}
           onClick={toggleShowAllCast}
         >
           {showAllCast ? 'Показать меньше' : `Показать всех (${filteredCast.length})`}
           <svg
-            className={`cast-list__toggle-icon ${showAllCast ? 'cast-list__toggle-icon--up' : ''}`}
+            className={`${styles.toggleIcon} ${showAllCast ? styles.toggleIconUp : ''}`}
             width="16"
             height="16"
             viewBox="0 0 24 24"

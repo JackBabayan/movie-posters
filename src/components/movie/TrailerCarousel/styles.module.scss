@@ -1,186 +1,147 @@
-.trailer-carousel {
-  margin: $spacing-xl 0;
+.trailerCarousel {
   
-  &__title {
-    font-size: $font-size-2xl;
-    margin-bottom: $spacing-lg;
-    color: var(--text-color);
+  .title {
+    font-size: var(--h2);
+    font-weight: 700;
+    color: var(--light-text);
+    margin-bottom: var(--m30);
   }
   
-  &__container {
+  .container {
     position: relative;
-    border-radius: $border-radius-md;
+    width: 100%;
+    background: var(--dark-card-bg);
+    border-radius: var(--borderMd);
     overflow: hidden;
-    background-color: var(--card-bg);
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  &__item {
+  .item {
     width: 100%;
   }
   
-  &__video-wrapper {
+  .videoWrapper {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%; // Соотношение сторон 16:9
-    height: 0;
+    padding-top: 56.25%; // Соотношение сторон 16:9
+    background: #000;
   }
   
-  &__iframe {
+  .iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    border: 0;
+    border: none;
   }
   
-  &__info {
-    padding: $spacing-md;
-    background-color: var(--card-bg);
-    
-    @include respond-to('tablet') {
-      padding: $spacing-lg;
-    }
+  .info {
+    padding: var(--m16);
   }
   
-  &__video-title {
-    font-size: $font-size-lg;
-    margin-bottom: $spacing-xs;
-    @include truncate(1);
+  .videoTitle {
+    font-size: var(--pL);
+    font-weight: 600;
+    color: var(--light-text);
+    margin-bottom: var(--m8);
   }
   
-  &__video-type {
-    font-size: $font-size-sm;
-    color: var(--text-color);
+  .videoType {
+    font-size: var(--pS);
+    color: var(--light-text);
     opacity: 0.8;
+    text-transform: capitalize;
   }
   
-  &__controls {
+  .controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--m16);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  }
+  
+  .arrow {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: $spacing-md;
-    gap: $spacing-md;
-    
-    @include respond-to('tablet') {
-      padding: $spacing-lg;
-    }
-  }
-  
-  &__arrow {
     width: 40px;
     height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
     border-radius: 50%;
-    background-color: var(--primary-color);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: var(--light-text);
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease;
     
     &:hover {
-      background-color: var(--accent-color);
-      transform: scale(1.1);
-    }
-    
-    &:active {
-      transform: scale(0.95);
-    }
-    
-    &--prev {
-      transform: rotate(180deg);
-      
-      &:hover {
-        transform: rotate(180deg) scale(1.1);
-      }
-      
-      &:active {
-        transform: rotate(180deg) scale(0.95);
-      }
+      background: rgba(255, 255, 255, 0.2);
     }
     
     svg {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
     }
   }
   
-  &__dots {
+  .dots {
     display: flex;
-    gap: $spacing-xs;
+    gap: var(--m8);
   }
   
-  &__dot {
-    width: 10px;
-    height: 10px;
+  .dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
     border-radius: 50%;
-    background-color: var(--border-color);
-    transition: background-color 0.2s ease, transform 0.2s ease;
     cursor: pointer;
+    transition: background-color 0.3s ease;
     
     &:hover {
-      background-color: var(--primary-color);
-      transform: scale(1.2);
+      background: rgba(255, 255, 255, 0.5);
     }
     
-    &--active {
-      background-color: var(--primary-color);
-      transform: scale(1.2);
+    &Active {
+      background: var(--light-text);
     }
   }
   
-  &__autoplay {
-    display: block;
-    margin: $spacing-md auto;
-    padding: $spacing-sm $spacing-md;
-    font-size: $font-size-sm;
-    background-color: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: $border-radius-md;
-    color: var(--text-color);
+  .autoplay {
+    width: 100%;
+    margin-top: var(--m16);
+    background: var(--dark-card-bg);
+    border: none;
+    border-radius: var(--borderMd);
     cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    transition: background-color 0.3s ease;
     
     &:hover {
-      background-color: var(--hover-color);
+      background: var(--dark-card-bg-hover);
     }
     
-    &--active {
-      background-color: var(--primary-color);
-      color: white;
-      border-color: var(--primary-color);
+    &Active {
+      background: var(--dark-card-bg-hover);
     }
   }
   
-  &__loading {
-    min-height: 300px;
+  .loading {
     display: flex;
-    align-items: center;
     justify-content: center;
-    background-color: var(--card-bg);
-    border-radius: $border-radius-md;
+    align-items: center;
+    min-height: 300px;
   }
   
-  &--empty {
+  .empty {
     text-align: center;
-    padding: $spacing-xl;
-    background-color: var(--card-bg);
-    border-radius: $border-radius-md;
-    color: var(--text-color);
-    opacity: 0.7;
-    font-style: italic;
-  }
-  
-  @include respond-to('tablet') {
-    &__video-title {
-      font-size: $font-size-xl;
-    }
-    
-    &__arrow {
-      width: 50px;
-      height: 50px;
-    }
+    padding: var(--m40);
+    color: var(--light-text);
+    font-size: var(--pL);
+    opacity: 0.8;
   }
 }

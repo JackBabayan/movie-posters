@@ -29,13 +29,11 @@ export const Header: React.FC = () => {
             transition={{ duration: 0.3 }}
           >
             <Image
-              src={'/image/Logo.png'}
-              alt={`site Logo`}
+              src="/image/Logo.png"
+              alt="Logo"
               width={70}
               height={80}
-              quality={100}
-              unoptimized
-              sizes="(max-width: 768px) 50px, (max-width: 1200px) 80px"
+              className={styles.logo}
             />
           </motion.div>
         </Link>

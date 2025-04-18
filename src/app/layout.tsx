@@ -16,7 +16,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <title>PopМovie - Каталог фильмов на вечер</title>
         <meta name="description" content="Каталог фильмов с возможностью поиска, фильтрации и сохранения в избранное" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/image/favicon.ico" />
         <link rel="icon" href="/image/favicon-32x32.png" sizes="32x32" type="image/png" />
         <link rel="icon" href="/image/favicon-32x32.png" sizes="32x32" type="image/png" />
       </head>

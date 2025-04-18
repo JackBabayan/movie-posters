@@ -3,221 +3,125 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { Star, Clock, Calendar } from 'lucide-react';
+import { formatDate, formatRuntime, formatNumber } from '@/utils/formatters';
 import { MovieDetail } from '@/types';
-import { getImageUrl } from '@/lib/api/tmdb';
-import { formatDate, formatRuntime, formatNumber } from '@/lib/utils/formatDate';
 import { FavoriteButton } from '@/components/common/FavoriteButton';
+import styles from './styles.module.scss';
 
 interface MovieDetailsProps {
   movie: MovieDetail;
 }
 
-export const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
-  const [imageError, setImageError] = useState(false);
-  
+export const MovieDetails = ({ movie }: MovieDetailsProps) => {
+  const [isImageError, setIsImageError] = useState(false);
+
   const {
     title,
-    poster_path,
     release_date,
-    genres,
+    runtime,
     vote_average,
     vote_count,
-    runtime,
     overview,
-    tagline,
+    poster_path,
+    genres,
     budget,
     revenue,
-    status
+    tagline,
   } = movie;
 
-  const ratingPercent = Math.round((vote_average || 0) * 10);
-  const releaseYear = release_date ? new Date(release_date).getFullYear() : null;
+  const posterUrl = poster_path
+    ? `https://image.tmdb.org/t/p/w500${poster_path}`
+    : null;
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
+  const releaseYear = new Date(release_date).getFullYear();
 
   return (
-    <motion.div 
-      className="movie-details"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      role="article"
-      aria-label={`Информация о фильме ${title}`}
+    <motion.div
+      className={styles.movieDetails}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
     >
-      <div className="movie-details__container">
-        <motion.div 
-          className="movie-details__poster"
-          variants={itemVariants}
-        >
-          {!imageError && poster_path ? (
+      <div className={styles.container}>
+        <div className={styles.poster}>
+          {posterUrl && !isImageError ? (
             <Image
-              src={getImageUrl(poster_path, 'w500')}
-              alt={`Постер фильма ${title}`}
-              width={500}
-              height={750}
-              priority
-              placeholder="blur"
-              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
-              onError={() => setImageError(true)}
+              src={posterUrl}
+              alt={title}
+              width={300}
+              height={450}
+              onError={() => setIsImageError(true)}
             />
           ) : (
-            <div 
-              className="movie-details__poster-placeholder"
-              role="img"
-              aria-label="Постер отсутствует"
-            >
-              <span>Нет постера</span>
+            <div className={styles.posterPlaceholder}>
+              No poster available
             </div>
           )}
-          <div className="movie-details__favorite">
+          <div className={styles.favorite}>
             <FavoriteButton movie={movie} />
           </div>
-        </motion.div>
+        </div>
 
-        <div className="movie-details__info">
-          <motion.h1 
-            className="movie-details__title"
-            variants={itemVariants}
-          >
-            {title} {releaseYear && <span className="movie-details__year">({releaseYear})</span>}
-          </motion.h1>
+        <div className={styles.info}>
+          <h1 className={styles.title}>
+            {title}
+            <span className={styles.year}>
+              {' '}
+              ({releaseYear})
+            </span>
+          </h1>
 
-          {tagline && (
-            <motion.p 
-              className="movie-details__tagline"
-              variants={itemVariants}
-            >
-              {tagline}
-            </motion.p>
-          )}
+          {tagline && <p className={styles.tagline}>{tagline}</p>}
 
-          <motion.div 
-            className="movie-details__meta"
-            variants={itemVariants}
-          >
-            {release_date && (
-              <div className="movie-details__release-date">
-                <span className="movie-details__label">Дата выхода:</span>
-                <span>{formatDate(release_date)}</span>
+          <div className={styles.meta}>
+            <div className={styles.metaItem}>
+              <Star size={18} />
+              <div className={styles.rating}>
+                <span className={styles.ratingValue}>
+                  {vote_average.toFixed(1)}
+                </span>
+                <span className={styles.ratingCount}>
+                  ({formatNumber(vote_count)})
+                </span>
               </div>
-            )}
-
-            {runtime > 0 && (
-              <div className="movie-details__runtime">
-                <span className="movie-details__label">Продолжительность:</span>
-                <span>{formatRuntime(runtime)}</span>
-              </div>
-            )}
-
-            {status && (
-              <div className="movie-details__status">
-                <span className="movie-details__label">Статус:</span>
-                <span>{status}</span>
-              </div>
-            )}
-          </motion.div>
-
-          <motion.div 
-            className="movie-details__rating"
-            variants={itemVariants}
-            role="group"
-            aria-label="Рейтинг фильма"
-          >
-            <div className="movie-details__rating-circle">
-              <svg 
-                viewBox="0 0 36 36" 
-                className="movie-details__rating-svg"
-                aria-hidden="true"
-              >
-                <path
-                  className="movie-details__rating-circle-bg"
-                  d="M18 2.0845
-                    a 15.9155 15.9155 0 0 1 0 31.831
-                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                />
-                <path
-                  className="movie-details__rating-circle-fill"
-                  strokeDasharray={`${ratingPercent}, 100`}
-                  d="M18 2.0845
-                    a 15.9155 15.9155 0 0 1 0 31.831
-                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                />
-                <text x="18" y="20.35" className="movie-details__rating-text">
-                  {ratingPercent}%
-                </text>
-              </svg>
             </div>
-            <div className="movie-details__votes">
-              <span className="movie-details__votes-count">{vote_count?.toLocaleString()}</span>
-              <span className="movie-details__votes-text">голосов</span>
+
+            <div className={styles.metaItem}>
+              <Clock size={18} />
+              {formatRuntime(runtime)}
             </div>
-          </motion.div>
 
-          {genres && genres.length > 0 && (
-            <motion.div 
-              className="movie-details__genres"
-              variants={itemVariants}
-            >
-              <span className="movie-details__label">Жанры:</span>
-              <div 
-                className="movie-details__genres-list"
-                role="list"
-                aria-label="Список жанров"
-              >
-                {genres.map(genre => (
-                  <span 
-                    key={genre.id} 
-                    className="movie-details__genre-item"
-                    role="listitem"
-                  >
-                    {genre.name}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          )}
+            <div className={styles.metaItem}>
+              <Calendar size={18} />
+              {formatDate(release_date)}
+            </div>
+          </div>
 
-          {overview && (
-            <motion.div 
-              className="movie-details__overview"
-              variants={itemVariants}
-            >
-              <h3 className="movie-details__overview-title">Описание</h3>
-              <p className="movie-details__overview-text">{overview}</p>
-            </motion.div>
-          )}
+          <div className={styles.genres}>
+            {genres.map((genre) => (
+              <span key={genre.id} className={styles.genre}>
+                {genre.name}
+              </span>
+            ))}
+          </div>
 
-          <motion.div 
-            className="movie-details__finances"
-            variants={itemVariants}
-          >
-            {budget > 0 && (
-              <div className="movie-details__budget">
-                <span className="movie-details__label">Бюджет:</span>
-                <span>${formatNumber(budget)}</span>
-              </div>
-            )}
+          <p className={styles.overview}>{overview}</p>
 
-            {revenue > 0 && (
-              <div className="movie-details__revenue">
-                <span className="movie-details__label">Сборы:</span>
-                <span>${formatNumber(revenue)}</span>
-              </div>
-            )}
-          </motion.div>
+          <div className={styles.stats}>
+            <div className={styles.stat}>
+              <span className={styles.statLabel}>Budget</span>
+              <span className={styles.statValue}>
+                ${formatNumber(budget)}
+              </span>
+            </div>
+            <div className={styles.stat}>
+              <span className={styles.statLabel}>Revenue</span>
+              <span className={styles.statValue}>
+                ${formatNumber(revenue)}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </motion.div>

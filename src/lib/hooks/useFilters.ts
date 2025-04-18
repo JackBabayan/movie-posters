@@ -12,7 +12,6 @@ export const useFilters = (options: UseFiltersOptions = {}) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  // Инициализация состояния из URL или начальных значений
   const [selectedGenres, setSelectedGenres] = useState<number[]>(() => {
     const genresParam = searchParams.get('genres');
     if (genresParam) {
@@ -25,7 +24,6 @@ export const useFilters = (options: UseFiltersOptions = {}) => {
     return searchParams.get('q') || options.initialQuery || '';
   });
   
-  // Обновление URL при изменении фильтров
   const updateURL = useCallback(() => {
     const params = new URLSearchParams(searchParams.toString());
     
@@ -45,7 +43,7 @@ export const useFilters = (options: UseFiltersOptions = {}) => {
     router.push(newURL);
   }, [selectedGenres, searchQuery, router, searchParams]);
   
-  // Обработчик выбора жанра
+
   const handleGenreSelect = useCallback((genreId: number) => {
     setSelectedGenres(prev => {
       if (prev.includes(genreId)) {
@@ -55,18 +53,18 @@ export const useFilters = (options: UseFiltersOptions = {}) => {
     });
   }, []);
   
-  // Обработчик поиска
+
   const handleSearch = useCallback((query: string) => {
     setSearchQuery(query);
   }, []);
   
-  // Очистка всех фильтров
+
   const clearFilters = useCallback(() => {
     setSelectedGenres([]);
     setSearchQuery('');
   }, []);
   
-  // Обновление URL при изменении фильтров
+
   useEffect(() => {
     updateURL();
   }, [selectedGenres, searchQuery, updateURL]);

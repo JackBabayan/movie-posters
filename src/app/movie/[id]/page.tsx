@@ -7,9 +7,11 @@ import { MovieDetail } from '@/types';
 import { tmdbApi, SWR_KEYS, getImageUrl } from '@/lib/api/tmdb';
 import { MovieDetails } from '@/components/movie/MovieDetails';
 import { CastList } from '@/components/movie/CastList';
-import { TrailerCarousel } from '@/components/movie/TrailerCarousel';
+import TrailerCarousel from '@/components/movie/TrailerCarousel';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { ErrorMessage } from '@/components/common/ErrorMessage';
+
+import styles from './styles.module.scss';
 
 // Функция загрузки данных для SWR
 const fetcher = ([, id]: [string, number]) => tmdbApi.getMovieDetails(id);
@@ -40,7 +42,7 @@ export default function MoviePage() {
   // Показываем индикатор загрузки
   if (isLoading) {
     return (
-      <div className="loading-container">
+      <div className={styles.loadingContainer}>
         <LoadingSpinner />
       </div>
     );
@@ -56,27 +58,23 @@ export default function MoviePage() {
   }
 
   return (
-    <div className="movie-page">
+    <div className={styles.moviePage}>
       <div
-        className="movie-page__backdrop"
+        className={styles.backdrop}
         style={{
           backgroundImage: `url(${getImageUrl(movie.backdrop_path, 'w1280')})`
         }}
-      >
-        <div className="movie-page__backdrop-overlay"></div>
-      </div>
+      />
 
-      <div className="container">
-        <div className="movie-page__content">
-
+      <div className={styles.container}>
+        <div className={styles.content}>
           <MovieDetails movie={movie} />
 
-
-          <section className="movie-page__section">
+          <section className={styles.section}>
             <CastList movieId={movieId} />
           </section>
 
-          <section className="movie-page__section">
+          <section className={styles.section}>
             <TrailerCarousel movieId={movieId} />
           </section>
         </div>
