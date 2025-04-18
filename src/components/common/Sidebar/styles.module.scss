@@ -1,0 +1,93 @@
+.sidebarWrapper {
+  position: relative;
+  width: 180px;
+
+  .sidebar {
+    position: sticky;
+    top: 150px;
+
+    .sidebarHeader {
+      margin-bottom: var(--m30);
+    }
+
+    .sidebarList {
+      .sidebarItem {
+        margin-bottom: var(--m18);
+        font-size: var(--pM);
+        font-weight: 500;
+        font-family: 'Inter', sans-serif;
+        color: var(--text-color);
+        line-height: var(--lineHeight);
+        cursor: pointer;
+
+        .sidebarItemContent {
+
+          text-transform: capitalize;
+          position: relative;
+
+          &:after {
+            opacity: 0.4;
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradientBackground);
+            background-size: 1060%;
+            overflow: hidden;
+            border-radius: var(--borderLg);
+            transition: all var(--trTime1) ease-in-out;
+
+          }
+
+          &:before {
+            opacity: 0.4;
+            content: "";
+            position: absolute;
+            top: calc(var(--pM) / 3);
+            right:-20px;
+            width: 0;
+            height: 0;
+            background: var(--gradientBackground);
+            background-size: 500%;
+            overflow: hidden;
+            border-radius: var(--borderLg);
+            transition: all var(--trTime1) ease-in-out;
+
+          }
+
+          &.active {
+            &:after {
+              animation: gradient 60s ease infinite, pulse 30s ease-in-out infinite alternate;
+              width: 100%;
+            }
+            &::before {
+              animation: gradient 60s ease infinite, pulse 30s ease-in-out infinite alternate;
+              width: var(--pS);
+              height: var(--pS);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 100%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 0%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

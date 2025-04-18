@@ -1,0 +1,10 @@
+.MovieCardWrapper{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--m60) var(--m40);
+
+  .loaderCont{
+    display: flex;
+    width: 100%;
+  }
+}

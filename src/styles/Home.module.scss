@@ -1,0 +1,11 @@
+.container {
+  .title {
+    margin-bottom: var(--m40);
+  }
+
+  .wrapperContent {
+    display: flex;
+    position: relative;
+    gap: var(--inboxPaddingMd);
+  }
+}

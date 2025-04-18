@@ -1,0 +1,186 @@
+:root {
+
+  // Основные цвета
+  --primary: #e50914;
+  --primary-dark: #ff3e3e;
+  --secondary: #0071eb;
+  --secondary-dark: #4c9aff;
+  --accent: #e87c03;
+  --accent-dark: #ffb24d;
+
+  // Цвета текста
+  --dark-text: #171717;
+  --light-text: #f5f5f5;
+
+  // Цвета фона
+  --light-background: #f8f9fa;
+  --dark-background: #0b0b0b;
+
+  // Цвета карточек
+  --light-card-bg: #ffffff;
+  --dark-card-bg: #1e1e1e;
+
+  // Тени
+  --light-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --dark-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+
+  // Цвета при наведении
+  --light-hover: #f0f0f0;
+  --dark-hover: #2a2a2a;
+
+  // Цвета границ
+  --light-border: #e0e0e0;
+  --dark-border: #333333;
+
+  // Цвета статусов
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --error: #dc3545;
+
+  --gradientBackground: linear-gradient(45deg, #ff00cc, #3333ff, #00ffcc, #ff9900, #ff0066, #6600ff, #00ffcc, #ff00cc);
+
+
+  --maxWidth: 1800px;
+
+  //transition
+  --trTime0: 0.2s;
+  --trTime1: 0.3s;
+  --trTime2: 0.5s;
+  --trTime3: 0.7s;
+  --trTime4: 1s;
+
+
+  --h1: 45px;
+  --h2: 40px;
+  --h3: 35px;
+
+  --pL: 18px;
+  --pM: 15px;
+  --pS: 12px;
+
+  //border
+  --borderXSm: 3px;
+  --borderSm: 4px;
+  --borderMd: 8px;
+  --borderLg: 16px;
+
+  //margin
+  --m8: 8px;
+  --m10: 10px;
+  --m12: 12px;
+  --m14: 14px;
+  --m16: 16px;
+  --m18: 18px;
+  --m20: 20px;
+  --m22: 22px;
+  --m24: 24px;
+  --m25: 25px;
+  --m26: 26px;
+  --m28: 28px;
+  --m30: 30px;
+  --m40: 40px;
+  --m60: 60px;
+
+
+  //line heights
+  --lineHeight: 1.2;
+  --lineHeightM: 1.4;
+  --lineHeightL: 1.6;
+  --lineHeightXL: 1.8;
+
+  --inboxPaddingSm: 20px;
+  --inboxPaddingMd: 30px;
+  --inboxPaddingLg: 40px;
+
+  --globalWrapPadding: 100px;
+  --globalSectionsPadding: 50px;
+
+  --maxWidth: 1240px;
+
+
+  &.light {
+    --text-color: var(--dark-text);
+    --background-color: var(--light-background);
+    --primary-color: var(--primary);
+    --secondary-color: var(--secondary);
+    --accent-color: var(--accent);
+
+    --card-bg: var(--light-card-bg);
+    --card-shadow: var(--light-shadow);
+    --hover-color: var(--light-hover);
+    --border-color: var(--light-border);
+  }
+
+  &.dark {
+    --text-color: var(--light-text);
+    --background-color: var(--dark-background);
+    --primary-color: var(--primary-dark);
+    --secondary-color: var(--secondary-dark);
+    --accent-color: var(--accent-dark);
+
+    --card-bg: var(--dark-card-bg);
+    --card-shadow: var(--dark-shadow);
+    --hover-color: var(--dark-hover);
+    --border-color: var(--dark-border);
+  }
+
+}
+
+
+@media only screen and (max-width: 1200px) and (min-width: 768px) {
+  :root {
+    --globalWrapPadding: 50px;
+
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  :root {
+
+    --borderMd: 6px;
+    --borderLg: 10px;
+
+    --h1: 40px;
+    --h2: 35px;
+    --h3: 30px;
+
+    --pL: 17px;
+    --pM: 14px;
+    --pS: 12px;
+
+
+    --m16: 8px;
+    --m24: 16px;
+    --m32: 24px;
+    --m40: 32px;
+    --m60: 40px;
+  }
+}
+
+
+@media only screen and (max-width: 767px) {
+  :root {
+
+    --globalWrapPadding: 20px;
+
+    --h1: 30px;
+    --h2: 25px;
+    --h3: 20px;
+
+    --pL: 15px;
+    --pM: 13px;
+    --pS: 11px;
+
+
+    --m8: 4px;
+    --m16: 8px;
+    --m18: 14px;
+    --m24: 16px;
+    --m32: 24px;
+    --m40: 24px;
+    --m60: 24px;
+
+    --borderLg: 8px;
+  }
+}
