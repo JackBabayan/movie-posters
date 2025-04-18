@@ -149,7 +149,15 @@ export const FavoriteIcon = (isMovieFavorite) => {
 export const ClearIcon = (isMovieFavorite) => {
     return (
         <svg width="20px" height="20px" viewBox="0 0 24 24">
-        <path fill="none" stroke="currentColor" stroke-width="2" d="M10,4 C10,2.8954305 10.8954305,2 12,2 C13.1045695,2 14,2.8954305 14,4 L14,10 L20,10 L20,14 L4,14 L4,10 L10,10 L10,4 Z M4,14 L20,14 L20,22 L12,22 L4,22 L4,14 Z M16,22 L16,16.3646005 M8,22 L8,16.3646005 M12,22 L12,16.3646005"/>
-      </svg>
+            <path fill="none" stroke="currentColor" strokeWidth="2" d="M10,4 C10,2.8954305 10.8954305,2 12,2 C13.1045695,2 14,2.8954305 14,4 L14,10 L20,10 L20,14 L4,14 L4,10 L10,10 L10,4 Z M4,14 L20,14 L20,22 L12,22 L4,22 L4,14 Z M16,22 L16,16.3646005 M8,22 L8,16.3646005 M12,22 L12,16.3646005" />
+        </svg>
+    )
+}
+
+export const NoImageIcon = (isMovieFavorite) => {
+    return (
+        <svg  width="80px" height="60px" viewBox="0 0 24 24" fill="none">
+            <path stroke="CurrentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m21 17-3.293-3.293a1 1 0 0 0-1.414 0l-.586.586a1 1 0 0 1-1.414 0l-2.879-2.879a2 2 0 0 0-2.828 0L3 17M21 5v14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1Zm-5 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" />
+        </svg>
     )
 }

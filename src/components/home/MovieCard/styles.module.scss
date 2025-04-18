@@ -4,9 +4,19 @@
     overflow: hidden;
     border-radius: var(--borderLg);
     margin-bottom: var(--m20);
+    padding: 75% 0;
+    backdrop-filter: blur(10px);
+    background: radial-gradient(circle, var(--background-color) 0, #94bbe900 100%);
 
     .container {
-      .image {}
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .rating {
@@ -28,14 +38,6 @@
       position: absolute;
       top: 10px;
       right: 10px;
-      padding: 11px;
-      border-radius: 100%;
-      border: 1px solid var(--text-color);
-      display: flex;
-
-      button {
-        font-size: 0;
-      }
     }
 
     .date {

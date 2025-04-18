@@ -53,7 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       >
         <div className={styles.sidebar}>
           <div className={styles.sidebarHeader}>
-            <h2 className={styles.title}>Жанры</h2>
+            <h3 className={styles.title}>Жанры</h3>
 
             {selectedGenres.length > 0 && (
               <motion.button

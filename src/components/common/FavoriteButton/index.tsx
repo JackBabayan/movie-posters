@@ -4,8 +4,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Movie, MovieDetail } from '@/types';
 import { useFavorites } from '@/lib/store/favorites';
+import classNames from "classnames";
 
 import { FavoriteIcon } from '@/styles/icon'
+import styles from "./styles.module.scss"
+
 
 interface FavoriteButtonProps {
   movie: Movie | MovieDetail;
@@ -18,7 +21,7 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   const isMovieFavorite = isFavorite(movie.id);
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault(); 
+    e.preventDefault();
     e.stopPropagation();
 
     if (isMovieFavorite) {
@@ -31,7 +34,10 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({
 
   return (
     <motion.button
-      className={`favorite-button ${isMovieFavorite ? 'favorite-button--active' : ''}`}
+      className={classNames(styles.favoriteButton, {
+        [styles.active]: isMovieFavorite
+      })}
+
       onClick={handleToggleFavorite}
       aria-label={isMovieFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
       whileTap={{ scale: 0.9 }}
@@ -40,7 +46,7 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({
       animate={isMovieFavorite ? { scale: [1, 1.2, 1] } : { scale: 1 }}
       transition={{ duration: 0.3 }}
     >
-      <FavoriteIcon/>
+      <FavoriteIcon />
     </motion.button>
   );
 };

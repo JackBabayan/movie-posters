@@ -9,6 +9,7 @@ import { getImageUrl } from '@/lib/api/tmdb';
 import { FavoriteButton } from '@/components/common/FavoriteButton';
 import { formatDate } from '@/lib/utils/formatDate';
 import { ROUTES } from '@/lib/utils/constants';
+import { NoImageIcon } from '@/styles/icon'
 
 import styles from "./styles.module.scss"
 
@@ -32,21 +33,26 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
       transition={{ duration: 0.5 }}
     >
       <div className={styles.poster}>
-        <Link href={ROUTES.MOVIE(movie.id)}>
+        <Link href={ROUTES.MOVIE(movie.id)} className={styles.container}>
           <motion.div
             transition={{ duration: 0.5 }}
             whileHover={{ scale: 1.09 }}
-            className={styles.container}>
-            <Image
-              src={getImageUrl(movie.poster_path, 'w342')}
-              alt={`Постер ${movie.title}`}
-              width={342}
-              height={455}
-              className={styles.image}
-              loading="lazy"
-              placeholder="empty"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
+          >
+            {
+              movie.poster_path ?
+                <Image
+                  src={getImageUrl(movie.poster_path, 'w342')}
+                  alt={`Постер ${movie.title}`}
+                  width={342}
+                  height={455}
+                  className={styles.image}
+                  loading="lazy"
+                  placeholder="empty"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+                :
+                <NoImageIcon />
+            }
           </motion.div>
           <div className={styles.rating}>
             <span>{movie.vote_average.toFixed(1)}</span>

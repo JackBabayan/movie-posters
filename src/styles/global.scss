@@ -12,6 +12,11 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+main {
+  min-height: 80vh;
+}
+
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -89,6 +94,7 @@ ul {
   display: flex;
   justify-content: center;
   padding-top: var(--globalWrapPadding);
+  padding-bottom: var(--globalWrapPadding);
   z-index: 1;
 
   .mainWrap {
@@ -139,4 +145,15 @@ ul {
 
 .flexAuto {
   flex: 1;
+}
+
+.btnGlobal {
+  padding: 10px var(--m25);
+  border: 1px solid var(--text-color);
+  border-radius: var(--borderLg);
+  font-size: var(--pL);
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-color);
+  line-height: var(--lineHeight);
 }

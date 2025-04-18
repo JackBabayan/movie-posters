@@ -2,17 +2,19 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-
+import Link from 'next/link';
 import { AttentionIcon } from '@/styles/icon'
 
 import styles from "./styles.module.scss"
 
 interface ErrorMessageProps {
   message: string;
+  link?: string;
+  linkText?: string;
   retry?: () => void;
 }
 
-export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, retry }) => {
+export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, retry, link , linkText }) => {
   return (
     <motion.div
       className={styles.errorMessage}
@@ -26,13 +28,21 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, retry }) =>
       <div className={styles.errorMessageText}>{message}</div>
       {retry && (
         <button
-          className={styles.errorMessageBtn}
+          className={'btnGlobal'}
           onClick={retry}
           aria-label="Повторить попытку"
         >
           Повторить
         </button>
       )}
+
+      {
+        link && linkText && (
+          <Link href={link}  className={'btnGlobal'}>
+            {linkText}
+          </Link>
+        )
+      }
     </motion.div>
   );
 };

@@ -48,9 +48,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   const handleClearSearch = () => {
     setSearchTerm('');
+    if (onSearch) {
+      onSearch('');
+    }
     if (inputRef.current) {
       inputRef.current.focus();
     }
+    router.push('/');
   };
 
   const handleSubmit = (e: React.FormEvent) => {

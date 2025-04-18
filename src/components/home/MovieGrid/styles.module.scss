@@ -2,9 +2,4 @@
   display: grid;
   gap: var(--m60) var(--m40);
   grid-template-columns:  repeat(3, 1fr);
-
-  .loaderCont{
-    display: flex;
-    width: 100%;
-  }
 }

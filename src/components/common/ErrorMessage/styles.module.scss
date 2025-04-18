@@ -8,18 +8,6 @@
   .errorMessageText {
     font-size: var(--pL);
     font-weight: 500;
-    margin-bottom: var(--m30);
-    font-family: 'Inter', sans-serif;
-    color: var(--text-color);
-    line-height: var(--lineHeight);
-  }
-
-  .errorMessageBtn {
-    padding: 10px var(--m25);
-    border: 1px solid var(--text-color);
-    border-radius: var(--borderLg);
-    font-size: var(--pL);
-    font-weight: 500;
     font-family: 'Inter', sans-serif;
     color: var(--text-color);
     line-height: var(--lineHeight);

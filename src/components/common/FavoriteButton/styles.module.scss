@@ -1,0 +1,44 @@
+.favoriteButton {
+  border: 1px solid var(--light-text);
+  border-radius: 100%;
+  padding: 11px;
+  display: flex;
+  transition: all var(--trTime1) ease-in-out;
+  svg {
+    fill: transparent;
+    transition: all var(--trTime1) ease-in-out;
+  }
+  
+  &.active {
+    background: var(--gradientBackground);
+    background-size: 1900%;
+    animation: gradient 80s ease infinite, pulse 30s ease-in-out infinite alternate;
+    svg {
+      stroke: var(--light-text);
+      fill: var(--light-text);
+    }
+  }
+}
+
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  25% {
+    background-position: 50% 100%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  75% {
+    background-position: 50% 0%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}

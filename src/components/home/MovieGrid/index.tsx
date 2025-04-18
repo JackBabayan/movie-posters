@@ -104,19 +104,18 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
         filteredMovies.length === 0 ?
           <ErrorMessage message={'Фильмы не найдены. Попробуйте другой запрос или фильтр.'} />
           :
-          <>
+          <div>
             <div className={styles.MovieCardWrapper}>
               {filteredMovies.map(movie => (
                 <MovieCard key={movie.id} movie={movie} />
               ))}
-
+            </div>
               {hasMore && (
-                <div ref={loaderRef} className={styles.loaderCont}>
-                  {!isLoading && <LoadingSpinner />}
+                <div ref={loaderRef}>
+                  {isLoading && <LoadingSpinner />}
                 </div>
               )}
-            </div>
-          </>
+          </div>
       }
     </div>
   );
