@@ -59,6 +59,5 @@ export const SEARCH_DEBOUNCE_INTERVAL = 400;
 export const ROUTES = {
   HOME: '/',
   MOVIE: (id: number | string) => `/movie/${id}`,
-  SEARCH: '/search',
   FAVORITES: '/favorites',
 };

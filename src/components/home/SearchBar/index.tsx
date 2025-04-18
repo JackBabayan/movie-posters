@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDebounce } from '@/lib/hooks/useDebounce';
-import { ROUTES, SEARCH_DEBOUNCE_INTERVAL } from '@/lib/utils/constants';
+import { SEARCH_DEBOUNCE_INTERVAL } from '@/lib/utils/constants';
 import classNames from "classnames";
 
 import { CloseIcon, SearchIcon } from '@/styles/icon'
@@ -60,7 +60,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       onSearch(searchTerm);
     }
     else if (searchTerm.trim()) {
-      router.push(`${ROUTES.SEARCH}?q=${encodeURIComponent(searchTerm.trim())}`);
+      router.push(`/?q=${encodeURIComponent(searchTerm.trim())}`);
+    } else {
+      router.push('/');
     }
   };
 

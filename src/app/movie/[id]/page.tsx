@@ -17,7 +17,7 @@ const fetcher = ([, id]: [string, number]) => tmdbApi.getMovieDetails(id);
 export default function MoviePage() {
   const params = useParams();
   const movieId = parseInt(params.id as string, 10);
-  
+
   // Загрузка деталей фильма с помощью SWR
   const { data: movie, error, isLoading } = useSWR<MovieDetail>(
     [SWR_KEYS.movieDetails(movieId), movieId],
@@ -31,7 +31,7 @@ export default function MoviePage() {
   // Проверяем валидность ID фильма
   if (isNaN(movieId) || movieId <= 0) {
     return (
-      <ErrorMessage 
+      <ErrorMessage
         message="Неверный ID фильма. Пожалуйста, вернитесь на главную страницу."
       />
     );
@@ -49,7 +49,7 @@ export default function MoviePage() {
   // Показываем ошибку
   if (error || !movie) {
     return (
-      <ErrorMessage 
+      <ErrorMessage
         message="Не удалось загрузить информацию о фильме. Пожалуйста, попробуйте позже."
       />
     );
@@ -57,8 +57,7 @@ export default function MoviePage() {
 
   return (
     <div className="movie-page">
-      {/* Фоновое изображение */}
-      <div 
+      <div
         className="movie-page__backdrop"
         style={{
           backgroundImage: `url(${getImageUrl(movie.backdrop_path, 'w1280')})`
@@ -66,18 +65,17 @@ export default function MoviePage() {
       >
         <div className="movie-page__backdrop-overlay"></div>
       </div>
-      
+
       <div className="container">
         <div className="movie-page__content">
-          {/* Детали фильма */}
+
           <MovieDetails movie={movie} />
-          
-          {/* Актерский состав */}
+
+
           <section className="movie-page__section">
             <CastList movieId={movieId} />
           </section>
-          
-          {/* Трейлеры */}
+
           <section className="movie-page__section">
             <TrailerCarousel movieId={movieId} />
           </section>

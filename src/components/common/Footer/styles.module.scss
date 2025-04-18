@@ -1,3 +1,21 @@
 .footer {
+  display: flex;
+  justify-content: center;
+  padding: 15px 0;
+  border-top: 1px solid var(--text-color);
+  margin-top: var(--globalWrapPadding);
 
+  .container{
+    max-width: var(--maxWidth);
+    width: 100%;
+    padding-left: var(--inboxPaddingSm);
+    padding-right: var(--inboxPaddingSm);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--inboxPaddingLg);
+    a{
+      margin-left: 10px;
+      text-decoration: underline;
+    }
+  }
 }

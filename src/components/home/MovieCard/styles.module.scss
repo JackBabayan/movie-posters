@@ -1,0 +1,74 @@
+.cardContainer {
+  .poster {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--borderLg);
+    margin-bottom: var(--m20);
+
+    .container {
+      .image {}
+    }
+
+    .rating {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--background-color);
+      padding: 11px;
+      border-radius: 100%;
+
+      font-size: var(--pL);
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-color);
+      line-height: var(--lineHeight);
+    }
+
+    .favorite {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 11px;
+      border-radius: 100%;
+      border: 1px solid var(--text-color);
+      display: flex;
+
+      button {
+        font-size: 0;
+      }
+    }
+
+    .date {
+      position: absolute;
+      bottom: 15px;
+      left: 10px;
+      padding: 8px 10px;
+      border-radius: var(--borderLg);
+      border: 1px solid var(--text-color);
+      background: var(--gradientBackground);
+      overflow: hidden;
+      transition: all var(--trTime1) ease-in-out;
+      background-size: 1060%;
+      font-size: var(--pS);
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-color);
+      line-height: var(--lineHeight);
+    }
+  }
+
+
+  .content {
+    .title {
+      margin-bottom: var(--m20);
+    }
+
+    .overview {
+      font-weight: 400;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-color);
+      line-height: var(--lineHeightM);
+      font-size: var(--pM);
+    }
+  }
+}

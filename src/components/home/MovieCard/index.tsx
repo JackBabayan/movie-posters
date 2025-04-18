@@ -10,6 +10,9 @@ import { FavoriteButton } from '@/components/common/FavoriteButton';
 import { formatDate } from '@/lib/utils/formatDate';
 import { ROUTES } from '@/lib/utils/constants';
 
+import styles from "./styles.module.scss"
+
+
 interface MovieCardProps {
   movie: Movie | MovieDetail;
 }
@@ -22,42 +25,44 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   };
 
   return (
-    <motion.div 
-      className="movie-card"
+    <motion.div
+      className={styles.cardContainer}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      whileHover={{ scale: 1.03 }}
+      transition={{ duration: 0.5 }}
     >
-      <div className="movie-card__poster">
+      <div className={styles.poster}>
         <Link href={ROUTES.MOVIE(movie.id)}>
-          <div className="movie-card__poster-container">
-            <Image 
+          <motion.div
+            transition={{ duration: 0.5 }}
+            whileHover={{ scale: 1.09 }}
+            className={styles.container}>
+            <Image
               src={getImageUrl(movie.poster_path, 'w342')}
               alt={`Постер ${movie.title}`}
               width={342}
-              height={513}
-              className="movie-card__poster-image"
+              height={455}
+              className={styles.image}
               loading="lazy"
               placeholder="empty"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
+          </motion.div>
+          <div className={styles.rating}>
+            <span>{movie.vote_average.toFixed(1)}</span>
           </div>
+          <div className={styles.favorite}>
+            <FavoriteButton movie={movie} />
+          </div>
+          <div className={styles.date}>{formatDate(movie.release_date)}</div>
         </Link>
-        <div className="movie-card__rating">
-          <span>{movie.vote_average.toFixed(1)}</span>
-        </div>
-        <div className="movie-card__favorite">
-          <FavoriteButton movie={movie} />
-        </div>
       </div>
-      <div className="movie-card__content">
-        <h3 className="movie-card__title">
-          <Link href={ROUTES.MOVIE(movie.id)}>{movie.title}</Link>
+      <div className={styles.content}>
+        <h3 className={styles.title}>
+          {movie.title}
         </h3>
-        <p className="movie-card__release-date">{formatDate(movie.release_date)}</p>
         {movie.overview && (
-          <p className="movie-card__overview">{truncateOverview(movie.overview)}</p>
+          <p className={styles.overview}>{truncateOverview(movie.overview)}</p>
         )}
       </div>
     </motion.div>

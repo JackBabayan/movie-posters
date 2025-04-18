@@ -31,11 +31,11 @@ export const Header: React.FC = () => {
             <Image
               src={'/image/Logo.png'}
               alt={`site Logo`}
-              width={80}
-              height={90}
+              width={70}
+              height={80}
               quality={100}
               unoptimized
-              sizes="(max-width: 768px) 40px, (max-width: 1200px) 50px"
+              sizes="(max-width: 768px) 50px, (max-width: 1200px) 80px"
             />
           </motion.div>
         </Link>
