@@ -21,7 +21,15 @@ const nextConfig: NextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
-  }
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/tmdb/:path*',
+        destination: 'https://api.themoviedb.org/3/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
