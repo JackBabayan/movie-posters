@@ -1,5 +1,3 @@
-@import '../../../styles/variables';
-
 .castList {
 
   .title {
@@ -103,10 +101,10 @@
 
   .toggleIcon {
     transition: transform 0.3s ease;
+  }
 
-    &Up {
-      transform: rotate(180deg);
-    }
+  .toggleIconUp {
+    transform: rotate(180deg);
   }
 
   .loading {
