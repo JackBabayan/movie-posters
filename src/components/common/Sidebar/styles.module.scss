@@ -8,6 +8,23 @@
 
     .sidebarHeader {
       margin-bottom: var(--m30);
+      position: relative;
+
+      .sidebarClearBtn {
+        width: 35px;
+        height: 35px;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px;
+        border: 1px solid var(--text-color);
+        border-radius: 100%;
+        transition: all var(--trTime1) ease-in-out;
+        &:hover{
+         top: -10px;
+        }
+      }
     }
 
     .sidebarList {
@@ -46,13 +63,14 @@
             content: "";
             position: absolute;
             top: calc(var(--pM) / 3);
-            right:-20px;
+            right: -20px;
             width: 0;
             height: 0;
             background: var(--gradientBackground);
-            background-size: 500%;
+            background-size: 800% 800%;
             overflow: hidden;
             border-radius: var(--borderLg);
+            filter: blur(1px);
             transition: all var(--trTime1) ease-in-out;
 
           }
@@ -62,6 +80,7 @@
               animation: gradient 60s ease infinite, pulse 30s ease-in-out infinite alternate;
               width: 100%;
             }
+
             &::before {
               animation: gradient 60s ease infinite, pulse 30s ease-in-out infinite alternate;
               width: var(--pS);
@@ -78,15 +97,19 @@
   0% {
     background-position: 0% 50%;
   }
+
   25% {
     background-position: 50% 100%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   75% {
     background-position: 50% 0%;
   }
+
   100% {
     background-position: 0% 50%;
   }

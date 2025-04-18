@@ -31,8 +31,8 @@ export const Header: React.FC = () => {
             <Image
               src={'/image/Logo.png'}
               alt={`site Logo`}
-              width={50}
-              height={50}
+              width={80}
+              height={90}
               quality={100}
               unoptimized
               sizes="(max-width: 768px) 40px, (max-width: 1200px) 50px"

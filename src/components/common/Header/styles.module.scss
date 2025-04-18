@@ -4,7 +4,7 @@
   z-index: 111;
   display: flex;
   justify-content: center;
-  padding: var(--inboxPaddingSm) 0;
+  padding: 5px 0;
   backdrop-filter: blur(10px);
   background: radial-gradient(circle, var(--background-color) 0, rgba(148, 187, 233, 0) 100%);
 
@@ -21,23 +21,66 @@
 
     .navList {
       display: flex;
+      align-items: center;
       gap: var(--inboxPaddingLg);
       list-style-type: none;
 
       .navItem {
+        font-weight: 500;
         font-size: var(--pL);
-        margin-bottom: var(--m25);
         font-family: 'Inter', sans-serif;
         color: var(--text-color);
         line-height: var(--lineHeight);
+        position: relative;
+
+        &:after {
+          opacity: 0.4;
+          content: "";
+          position: absolute;
+          bottom: -10px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: var(--gradientBackground);
+          background-size: 1060%;
+          overflow: hidden;
+          border-radius: var(--borderLg);
+          transition: all var(--trTime1) ease-in-out;
+
+        }
 
         &.active {
-          font-weight: 500;
+          font-weight: 700;
+
+          &:after {
+            animation: gradient 180s ease infinite, pulse 40s ease-in-out infinite alternate;
+            width: 100%;
+          }
+
         }
       }
     }
+  }
 
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
 
-    @media (max-width: 767px) {}
+    25% {
+      background-position: 50% 100%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    75% {
+      background-position: 50% 0%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
   }
 }

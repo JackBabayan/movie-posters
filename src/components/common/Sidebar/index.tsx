@@ -5,9 +5,9 @@ import useSWR from 'swr';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Genre } from '@/types';
 import { tmdbApi, SWR_KEYS } from '@/lib/api/tmdb';
-
 import classNames from "classnames";
 
+import { ClearIcon } from '@/styles/icon'
 
 import styles from "./styles.module.scss"
 
@@ -53,22 +53,26 @@ export const Sidebar: React.FC<SidebarProps> = ({
       >
         <div className={styles.sidebar}>
           <div className={styles.sidebarHeader}>
-            <h3 className={styles.title}>Жанры</h3>
+            <h2 className={styles.title}>Жанры</h2>
 
             {selectedGenres.length > 0 && (
-              <button
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.03 }}
                 className={styles.sidebarClearBtn}
                 onClick={onClearGenres}
                 aria-label="Очистить выбранные жанры"
               >
-                Сбросить
-              </button>
+                <ClearIcon />
+              </motion.button>
             )}
           </div>
 
           {!isLoading &&
             error ? (
-            <div className="sidebar__error">
+            <div>
               <p>Не удалось загрузить жанры</p>
             </div>
           ) : (

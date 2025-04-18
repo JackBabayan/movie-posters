@@ -15,7 +15,7 @@ interface MovieCardProps {
 }
 
 export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
-  // Функция для ограничения длины описания
+
   const truncateOverview = (text: string, maxLength: number = 120) => {
     if (text.length <= maxLength) return text;
     return text.slice(0, maxLength) + '...';
