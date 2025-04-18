@@ -4,14 +4,14 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Movie } from '@/types';
+import { Movie, MovieDetail } from '@/types';
 import { getImageUrl } from '@/lib/api/tmdb';
 import { FavoriteButton } from '@/components/common/FavoriteButton';
 import { formatDate } from '@/lib/utils/formatDate';
 import { ROUTES } from '@/lib/utils/constants';
 
 interface MovieCardProps {
-  movie: Movie;
+  movie: Movie | MovieDetail;
 }
 
 export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {

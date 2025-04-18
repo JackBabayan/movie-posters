@@ -1,14 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { MovieGrid } from '@/components/home/MovieGrid';
 import { SearchBar } from '@/components/home/SearchBar';
 import { Sidebar } from '@/components/common/Sidebar';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 
 import styles from '@/styles/Home.module.scss'
 
-export default function HomePage() {
+function HomeContent() {
   const router = useRouter();
   const params = useSearchParams();
 
@@ -50,7 +51,6 @@ export default function HomePage() {
         </div>
 
         <div className={styles.wrapperContent}>
-
           <Sidebar
             selectedGenres={selectedGenres}
             onGenreSelect={handleGenreSelect}
@@ -64,5 +64,13 @@ export default function HomePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <HomeContent />
+    </Suspense>
   );
 }

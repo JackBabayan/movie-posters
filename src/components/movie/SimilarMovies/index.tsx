@@ -3,53 +3,39 @@
 import React from 'react';
 import useSWR from 'swr';
 import { motion } from 'framer-motion';
-import { MovieCard } from '../../home/MovieCard';
-import { LoadingSpinner } from '../../common/LoadingSpinner';
+import { MovieCard } from '@/components/home/MovieCard';
 import { ErrorMessage } from '../../common/ErrorMessage';
-import { tmdbApi, SWR_KEYS } from '@/lib/api/tmdb';
-import { MovieListResponse } from '@/types';
+import { tmdbApi } from '@/lib/api/tmdb';
 import { UI } from '@/lib/utils/constants';
+import styles from './SimilarMovies.module.scss';
 
 interface SimilarMoviesProps {
   movieId: number;
 }
 
 // Функция загрузки данных для SWR
-const fetcher = (key: string, movieId: number) => tmdbApi.getSimilarMovies(movieId);
+const fetcher = ([, movieId]: [string, number]) => tmdbApi.getSimilarMovies(movieId);
 
 export const SimilarMovies: React.FC<SimilarMoviesProps> = ({ movieId }) => {
-  const { data, error, isLoading } = useSWR<MovieListResponse>(
-    [SWR_KEYS.similarMovies(movieId), movieId],
-    fetcher
+  const { data: similarMovies, error } = useSWR(
+    ['similarMovies', movieId],
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    }
   );
 
   // Ограничиваем количество показываемых похожих фильмов
-  const similarMovies = data?.results
-    ? data.results
+  const similarMoviesData = similarMovies?.results
+    ? similarMovies.results
         .filter(movie => movie.poster_path) // Отфильтровываем фильмы без постеров
-        .slice(0, UI.MAX_SIMILAR_MOVIES)
+        .slice(0, UI.MOVIES_PER_PAGE)
     : [];
 
-  // Анимации для контейнера и элементов
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
-
-  if (isLoading) {
+  if (similarMovies === undefined) {
     return (
-      <div className="similar-movies__loading">
-        <LoadingSpinner />
+      <div className={styles.loading}>
+        <span>Загрузка похожих фильмов...</span>
       </div>
     );
   }
@@ -58,30 +44,31 @@ export const SimilarMovies: React.FC<SimilarMoviesProps> = ({ movieId }) => {
     return <ErrorMessage message="Не удалось загрузить похожие фильмы" />;
   }
 
-  if (!similarMovies.length) {
+  if (!similarMoviesData.length) {
     return null; // Не показываем блок, если нет похожих фильмов
   }
 
   return (
-    <div className="similar-movies">
-      <h2 className="similar-movies__title">Похожие фильмы</h2>
-
+    <section className={styles.similarMovies}>
+      <h2 className={styles.title}>Похожие фильмы</h2>
       <motion.div
-        className="similar-movies__grid"
-        variants={containerVariants}
+        className={styles.grid}
         initial="hidden"
         animate="visible"
       >
-        {similarMovies.map(movie => (
+        {similarMoviesData.map(movie => (
           <motion.div
             key={movie.id}
-            className="similar-movies__item"
-            variants={itemVariants}
+            className={styles.card}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 }
+            }}
           >
             <MovieCard movie={movie} />
           </motion.div>
         ))}
       </motion.div>
-    </div>
+    </section>
   );
 };

@@ -81,7 +81,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <li key={genre.id}
                   className={styles.sidebarItem}
                   onClick={() => handleGenreClick(genre.id)}
-                  aria-pressed={isGenreSelected(genre.id)}
                 >
                   <span className={classNames(styles.sidebarItemContent, {
                     [styles.active]: isGenreSelected(genre.id)

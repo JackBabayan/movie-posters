@@ -57,6 +57,14 @@ export const tmdbApi = {
     return response.data;
   },
   
+  // Получение похожих фильмов
+  getSimilarMovies: async (id: number, page: number = 1): Promise<MovieListResponse> => {
+    const response = await tmdbAxios.get<MovieListResponse>(`/movie/${id}/similar`, {
+      params: { page }
+    });
+    return response.data;
+  },
+  
   // Получение всех жанров фильмов
   getGenres: async (): Promise<{ genres: Genre[] }> => {
     const response = await tmdbAxios.get<{ genres: Genre[] }>('/genre/movie/list');
@@ -81,6 +89,7 @@ export const SWR_KEYS = {
   movieDetails: (id: number) => `movie-details-${id}`,
   movieCredits: (id: number) => `movie-credits-${id}`,
   movieVideos: (id: number) => `movie-videos-${id}`,
+  similarMovies: (id: number, page: number) => `similar-movies-${id}-${page}`,
   genres: 'genres',
   searchMovies: (query: string, page: number) => `search-movies-${query}-${page}`
 };

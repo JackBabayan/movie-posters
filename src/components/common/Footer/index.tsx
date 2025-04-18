@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="footer">
+    <footer className={styles.footer}>
       <div className="container">
         <div className="footer__content">
           <motion.div 

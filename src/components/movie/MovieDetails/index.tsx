@@ -30,11 +30,9 @@ export const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
     status
   } = movie;
 
-  // Вычисляем процент рейтинга для визуализации
   const ratingPercent = Math.round((vote_average || 0) * 10);
   const releaseYear = release_date ? new Date(release_date).getFullYear() : null;
 
-  // Анимации для элементов
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -85,7 +83,7 @@ export const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
             </div>
           )}
           <div className="movie-details__favorite">
-            <FavoriteButton movie={movie} size="large" />
+            <FavoriteButton movie={movie} />
           </div>
         </motion.div>
 
