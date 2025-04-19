@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { SEARCH_DEBOUNCE_INTERVAL } from '@/lib/utils/constants';
@@ -9,7 +9,6 @@ import classNames from "classnames";
 
 import { CloseIcon, SearchIcon } from '@/styles/icon'
 import styles from "./styles.module.scss"
-
 
 interface SearchBarProps {
   initialValue?: string;
@@ -26,15 +25,27 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const debouncedSearchTerm = useDebounce(searchTerm, SEARCH_DEBOUNCE_INTERVAL);
 
-  useEffect(() => {
+  const updateSearch = useCallback((term: string) => {
     if (onSearch) {
-      onSearch(debouncedSearchTerm);
+      onSearch(term);
+    } else {
+      const params = new URLSearchParams(searchParams.toString());
+      if (term.trim()) {
+        params.set('q', term.trim());
+      } else {
+        params.delete('q');
+      }
+      router.push(`/?${params.toString()}`);
     }
-  }, [debouncedSearchTerm, onSearch]);
+  }, [onSearch, router, searchParams]);
 
+  useEffect(() => {
+    updateSearch(debouncedSearchTerm);
+  }, [debouncedSearchTerm, updateSearch]);
 
   useEffect(() => {
     if (autoFocus && inputRef.current) {
@@ -48,26 +59,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   const handleClearSearch = () => {
     setSearchTerm('');
-    if (onSearch) {
-      onSearch('');
-    }
     if (inputRef.current) {
       inputRef.current.focus();
     }
-    router.push('/');
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (onSearch) {
-      onSearch(searchTerm);
-    }
-    else if (searchTerm.trim()) {
-      router.push(`/?q=${encodeURIComponent(searchTerm.trim())}`);
-    } else {
-      router.push('/');
-    }
   };
 
   return (
@@ -77,7 +75,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       })}
       onSubmit={handleSubmit}
     >
-
       <input
         ref={inputRef}
         className={styles.input}

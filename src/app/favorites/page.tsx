@@ -13,7 +13,6 @@ export default function FavoritesPage() {
   const { favorites, clearFavorites } = useFavorites();
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  // Анимационные варианты для списка и элементов
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -30,7 +29,7 @@ export default function FavoritesPage() {
     exit: { opacity: 0, scale: 0.8, transition: { duration: 0.2 } }
   };
 
-  // Анимационные варианты для модального окна
+  
   const modalVariants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: {
@@ -51,17 +50,17 @@ export default function FavoritesPage() {
     }
   };
 
-  // Открытие диалога подтверждения
+  
   const handleClearFavoritesClick = () => {
     setShowConfirmation(true);
   };
 
-  // Отмена очистки избранного
+  
   const handleCancelClear = () => {
     setShowConfirmation(false);
   };
 
-  // Подтверждение очистки избранного
+  
   const handleConfirmClear = () => {
     clearFavorites();
     setShowConfirmation(false);

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, memo } from 'react';
 import { MovieCard } from '../MovieCard';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { ErrorMessage } from '@/components/common/ErrorMessage';
@@ -14,6 +14,18 @@ interface MovieGridProps {
   searchQuery: string;
   selectedGenres: number[];
 }
+
+const MemoizedMovieCard = memo(MovieCard);
+
+
+const useFilteredMovies = (movies: Movie[], selectedGenres: number[]) => {
+  return useCallback(() => {
+    if (!selectedGenres.length) return movies;
+    return movies.filter(movie =>
+      selectedGenres.some(genreId => movie.genre_ids.includes(genreId))
+    );
+  }, [movies, selectedGenres]);
+};
 
 export const MovieGrid: React.FC<MovieGridProps> = ({
   searchQuery,
@@ -45,15 +57,13 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
     loadMovies();
   }, [searchQuery]);
 
-
-  const loadMoreMovies = async (page: number) => {
+  const loadMoreMovies = useCallback(async (page: number) => {
     try {
       setIsLoading(true);
 
       const response = searchQuery
         ? await tmdbApi.searchMovies(searchQuery, page)
         : await tmdbApi.getPopularMovies(page);
-
 
       if (response.page >= response.total_pages) {
         setHasMore(false);
@@ -76,7 +86,7 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [searchQuery, movies]);
 
   const { loaderRef, hasMore, setHasMore } = useInfiniteScroll(loadMoreMovies, {
     initialPage: 2
@@ -86,11 +96,7 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
     setHasMore(true);
   }, [searchQuery, setHasMore]);
 
-  const filteredMovies = selectedGenres.length
-    ? movies.filter(movie =>
-      selectedGenres.some(genreId => movie.genre_ids.includes(genreId))
-    )
-    : movies;
+  const filteredMovies = useFilteredMovies(movies, selectedGenres)();
 
   if (error) {
     return <ErrorMessage message={error} />;
@@ -104,10 +110,10 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
         filteredMovies.length === 0 ?
           <ErrorMessage message={'Фильмы не найдены. Попробуйте другой запрос или фильтр.'} />
           :
-          <div>
+          <>
             <div className={styles.MovieCardWrapper}>
               {filteredMovies.map(movie => (
-                <MovieCard key={movie.id} movie={movie} />
+                <MemoizedMovieCard key={movie.id} movie={movie} />
               ))}
             </div>
               {hasMore && (
@@ -115,7 +121,7 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
                   {isLoading && <LoadingSpinner />}
                 </div>
               )}
-          </div>
+          </>
       }
     </div>
   );

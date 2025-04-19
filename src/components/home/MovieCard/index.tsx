@@ -16,9 +16,10 @@ import styles from "./styles.module.scss"
 
 interface MovieCardProps {
   movie: Movie | MovieDetail;
+  isPriority?: boolean;
 }
 
-export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+export const MovieCard: React.FC<MovieCardProps> = ({ movie, isPriority = false }) => {
 
   const truncateOverview = (text: string, maxLength: number = 120) => {
     if (text.length <= maxLength) return text;
@@ -34,26 +35,25 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
     >
       <div className={styles.poster}>
         <Link href={ROUTES.MOVIE(movie.id)} className={styles.container}>
-          <motion.div
-            transition={{ duration: 0.5 }}
-            whileHover={{ scale: 1.09 }}
-          >
-            {
-              movie.poster_path ?
-                <Image
-                  src={getImageUrl(movie.poster_path, 'w342')}
-                  alt={`Постер ${movie.title}`}
-                  width={342}
-                  height={455}
-                  className={styles.image}
-                  loading="lazy"
-                  placeholder="empty"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                :
-                <NoImageIcon />
-            }
-          </motion.div>
+          {movie.poster_path ? (
+            <motion.div
+              transition={{ duration: 0.5 }}
+              whileHover={{ scale: 1.09 }}
+              style={{ width: '100%', height: '100%', position: 'relative' }}
+            >
+              <Image
+                src={getImageUrl(movie.poster_path, 'w342')}
+                alt={`Постер ${movie.title}`}
+                fill
+                style={{ objectFit: 'cover' }}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                quality={75}
+                priority={isPriority}
+              />
+            </motion.div>
+          ) : (
+            <NoImageIcon />
+          )}
           <div className={styles.rating}>
             <span>{movie.vote_average.toFixed(1)}</span>
           </div>

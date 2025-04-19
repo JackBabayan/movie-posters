@@ -30,7 +30,7 @@
   .container {
     max-width: var(--maxWidth);
     margin: 0 auto;
-    padding: var(--globalWrapPadding) var(--m20);
+    padding: var(--globalWrapPadding) 0;
     position: relative;
     z-index: 1;
   }
@@ -49,7 +49,6 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
 
     h2 {
-      font-size: var(--h2);
       font-weight: 700;
       margin-bottom: var(--m30);
       color: var(--light-text);
@@ -65,9 +64,6 @@
   }
 
   @media (max-width: 768px) {
-    .container {
-      padding: var(--m40) var(--m20);
-    }
 
     .content {
       gap: var(--m40);
@@ -77,7 +73,6 @@
       padding: var(--inboxPaddingMd);
 
       h2 {
-        font-size: var(--h3);
         margin-bottom: var(--m20);
       }
     }

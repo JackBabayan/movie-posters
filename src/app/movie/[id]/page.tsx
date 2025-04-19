@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useParams } from 'next/navigation';
 import useSWR from 'swr';
 import { MovieDetail } from '@/types';
@@ -13,24 +13,27 @@ import { ErrorMessage } from '@/components/common/ErrorMessage';
 
 import styles from './styles.module.scss';
 
-// Функция загрузки данных для SWR
+
 const fetcher = ([, id]: [string, number]) => tmdbApi.getMovieDetails(id);
 
 export default function MoviePage() {
   const params = useParams();
   const movieId = parseInt(params.id as string, 10);
 
-  // Загрузка деталей фильма с помощью SWR
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  
   const { data: movie, error, isLoading } = useSWR<MovieDetail>(
     [SWR_KEYS.movieDetails(movieId), movieId],
     fetcher,
     {
-      // Отключаем запрос, если ID невалидный
       isPaused: () => isNaN(movieId) || movieId <= 0
     }
   );
 
-  // Проверяем валидность ID фильма
+  
   if (isNaN(movieId) || movieId <= 0) {
     return (
       <ErrorMessage
@@ -39,7 +42,7 @@ export default function MoviePage() {
     );
   }
 
-  // Показываем индикатор загрузки
+  
   if (isLoading) {
     return (
       <div className={styles.loadingContainer}>
@@ -48,7 +51,7 @@ export default function MoviePage() {
     );
   }
 
-  // Показываем ошибку
+  
   if (error || !movie) {
     return (
       <ErrorMessage

@@ -2,13 +2,32 @@
   position: relative;
   width: 180px;
 
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
   .sidebar {
-    position: sticky;
-    top: 150px;
+
+    @media (max-width: 768px) {
+      position: static;
+    }
 
     .sidebarHeader {
       margin-bottom: var(--m30);
       position: relative;
+
+      @media (max-width: 768px) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .title {
+        font-size: var(--h3);
+        font-weight: 700;
+        color: var(--light-text);
+
+      }
 
       .sidebarClearBtn {
         width: 35px;
@@ -21,13 +40,29 @@
         border: 1px solid var(--text-color);
         border-radius: 100%;
         transition: all var(--trTime1) ease-in-out;
-        &:hover{
-         top: -10px;
+        
+        &:hover {
+          top: -10px;
+        }
+
+        @media (max-width: 768px) {
+          top: -10px;
+          &:hover {
+            transform: scale(1.1);
+          }
         }
       }
     }
 
     .sidebarList {
+      @media (max-width: 768px) {
+        display: flex;
+        overflow: scroll;
+        gap: var(--m60);
+        padding-bottom:var(--m20) ;
+        margin-right: -20px;
+      }
+
       .sidebarItem {
         margin-bottom: var(--m18);
         font-size: var(--pM);
@@ -36,58 +71,73 @@
         color: var(--text-color);
         line-height: var(--lineHeight);
         cursor: pointer;
+        
+
+        @media (max-width: 768px) {
+          margin-bottom: 0;
+          padding-right: var(--m60);
+        }
 
         .sidebarItemContent {
-
-          text-transform: capitalize;
-          position: relative;
-
-          &:after {
-            opacity: 0.4;
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradientBackground);
-            background-size: 1060%;
-            overflow: hidden;
-            border-radius: var(--borderLg);
+         
+          
+          @media (max-width: 768px) {
+            border-radius: var(--borderMd);
             transition: all var(--trTime1) ease-in-out;
-
+            white-space: nowrap;
           }
+         
 
-          &:before {
-            opacity: 0.4;
-            content: "";
-            position: absolute;
-            top: calc(var(--pM) / 3);
-            right: -20px;
-            width: 0;
-            height: 0;
-            background: var(--gradientBackground);
-            background-size: 800% 800%;
-            overflow: hidden;
-            border-radius: var(--borderLg);
-            filter: blur(1px);
-            transition: all var(--trTime1) ease-in-out;
-
-          }
-
-          &.active {
+            text-transform: capitalize;
+            position: relative;
+  
             &:after {
-              animation: gradient 60s ease infinite, pulse 30s ease-in-out infinite alternate;
-              width: 100%;
+              opacity: 0.4;
+              content: "";
+              position: absolute;
+              bottom: -10px;
+              left: 0;
+              width: 0;
+              height: 2px;
+              background: var(--gradientBackground);
+              background-size: 1060%;
+              overflow: hidden;
+              border-radius: var(--borderLg);
+              transition: all var(--trTime1) ease-in-out;
+  
             }
-
-            &::before {
-              animation: gradient 60s ease infinite, pulse 30s ease-in-out infinite alternate;
-              width: var(--pS);
-              height: var(--pS);
+  
+            &:before {
+              opacity: 0.4;
+              content: "";
+              position: absolute;
+              top: calc(var(--pM) / 3);
+              right: -20px;
+              width: 0;
+              height: 0;
+              background: var(--gradientBackground);
+              background-size: 800% 800%;
+              overflow: hidden;
+              border-radius: var(--borderLg);
+              filter: blur(1px);
+              transition: all var(--trTime1) ease-in-out;
+  
+            }
+  
+            &.active {
+              &:after {
+                animation: gradient 60s ease infinite, pulse 30s ease-in-out infinite alternate;
+                width: 100%;
+              }
+  
+              &::before {
+                animation: gradient 60s ease infinite, pulse 30s ease-in-out infinite alternate;
+                width: var(--pS);
+                height: var(--pS);
+              }
             }
           }
-        }
+        
       }
     }
   }

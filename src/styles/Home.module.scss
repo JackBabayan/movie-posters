@@ -7,5 +7,9 @@
     display: flex;
     position: relative;
     gap: var(--inboxPaddingMd);
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
   }
+
 }

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 interface CacheOptions {
-  ttl?: number; // время жизни кеша в миллисекундах
+  ttl?: number;
 }
 
 export function useCache<T>(
@@ -18,27 +18,25 @@ export function useCache<T>(
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Проверяем кеш
+       
         const cached = localStorage.getItem(key);
         if (cached) {
-          const { data: cachedData, timestamp } = JSON.parse(cached);
+          const { value, timestamp } = JSON.parse(cached);
           
-          // Проверяем TTL
+       
           if (!options.ttl || Date.now() - timestamp < options.ttl) {
-            setData(cachedData);
+            setData(value);
             setIsLoading(false);
             return;
           }
         }
-
-        // Если нет в кеше или истек TTL, загружаем
+        
         const freshData = await fetcher();
         
-        // Сохраняем в кеш
         localStorage.setItem(
           key,
           JSON.stringify({
-            data: freshData,
+            value: freshData,
             timestamp: Date.now(),
           })
         );

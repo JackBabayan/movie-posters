@@ -7,12 +7,22 @@
     flex-direction: column;
     align-items: center;
     gap: var(--m30);
+
+
+    .title {
+      font-size: var(--h1);
+      text-align: center;
+    }
   }
 
   .favoritesGrid {
     display: grid;
     gap: var(--m60) var(--m40);
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
 
     img {
       width: 370px;
@@ -31,6 +41,7 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    padding: var(--m20);
   }
 
   .modalContent {
@@ -62,15 +73,23 @@
     flex-wrap: wrap;
     gap: var(--m20);
 
-    button{
+    @media (max-width: 480px) {
+      flex-direction: column;
+    }
+
+    button {
       flex: 0 0 calc(50% - (var(--m20)/2));
+
+      @media (max-width: 480px) {
+        flex: 1;
+        width: 100%;
+      }
+
       &.cancel {
-        
         color: var(--dark-text);
         border: 1px solid var(--dark-text);
-
       }
-  
+
       &.confirm {
         background-color: var(--error);
         color: var(--light-text);
