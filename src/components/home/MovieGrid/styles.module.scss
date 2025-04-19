@@ -11,5 +11,6 @@
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
     width: 100%;
+    gap: var(--m30) var(--m60);
   }
 }
