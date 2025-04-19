@@ -7,6 +7,8 @@
   }
 
   .sidebar {
+    position: sticky;
+    top: 150px;
 
     @media (max-width: 768px) {
       position: static;
@@ -26,7 +28,6 @@
         font-size: var(--h3);
         font-weight: 700;
         color: var(--light-text);
-
       }
 
       .sidebarClearBtn {
@@ -59,7 +60,7 @@
         display: flex;
         overflow: scroll;
         gap: var(--m60);
-        padding-bottom:var(--m20) ;
+        padding-bottom: var(--m20);
         margin-right: -20px;
       }
 
@@ -71,7 +72,6 @@
         color: var(--text-color);
         line-height: var(--lineHeight);
         cursor: pointer;
-        
 
         @media (max-width: 768px) {
           margin-bottom: 0;
@@ -79,65 +79,59 @@
         }
 
         .sidebarItemContent {
-         
-          
+          text-transform: capitalize;
+          position: relative;
+
           @media (max-width: 768px) {
             border-radius: var(--borderMd);
             transition: all var(--trTime1) ease-in-out;
             white-space: nowrap;
           }
-         
 
-            text-transform: capitalize;
-            position: relative;
-  
+          &:after {
+            opacity: 0.4;
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradientBackground);
+            background-size: 1060%;
+            overflow: hidden;
+            border-radius: var(--borderLg);
+            transition: all var(--trTime1) ease-in-out;
+          }
+
+          &:before {
+            opacity: 0.4;
+            content: "";
+            position: absolute;
+            top: calc(var(--pM) / 3);
+            right: -20px;
+            width: 0;
+            height: 0;
+            background: var(--gradientBackground);
+            background-size: 800% 800%;
+            overflow: hidden;
+            border-radius: var(--borderLg);
+            filter: blur(1px);
+            transition: all var(--trTime1) ease-in-out;
+          }
+
+          &.active {
             &:after {
-              opacity: 0.4;
-              content: "";
-              position: absolute;
-              bottom: -10px;
-              left: 0;
-              width: 0;
-              height: 2px;
-              background: var(--gradientBackground);
-              background-size: 1060%;
-              overflow: hidden;
-              border-radius: var(--borderLg);
-              transition: all var(--trTime1) ease-in-out;
-  
+              animation: gradient 60s ease infinite, pulse 30s ease-in-out infinite alternate;
+              width: 100%;
             }
-  
-            &:before {
-              opacity: 0.4;
-              content: "";
-              position: absolute;
-              top: calc(var(--pM) / 3);
-              right: -20px;
-              width: 0;
-              height: 0;
-              background: var(--gradientBackground);
-              background-size: 800% 800%;
-              overflow: hidden;
-              border-radius: var(--borderLg);
-              filter: blur(1px);
-              transition: all var(--trTime1) ease-in-out;
-  
-            }
-  
-            &.active {
-              &:after {
-                animation: gradient 60s ease infinite, pulse 30s ease-in-out infinite alternate;
-                width: 100%;
-              }
-  
-              &::before {
-                animation: gradient 60s ease infinite, pulse 30s ease-in-out infinite alternate;
-                width: var(--pS);
-                height: var(--pS);
-              }
+
+            &::before {
+              animation: gradient 60s ease infinite, pulse 30s ease-in-out infinite alternate;
+              width: var(--pS);
+              height: var(--pS);
             }
           }
-        
+        }
       }
     }
   }
@@ -147,19 +141,15 @@
   0% {
     background-position: 0% 50%;
   }
-
   25% {
     background-position: 50% 100%;
   }
-
   50% {
     background-position: 100% 50%;
   }
-
   75% {
     background-position: 50% 0%;
   }
-
   100% {
     background-position: 0% 50%;
   }
