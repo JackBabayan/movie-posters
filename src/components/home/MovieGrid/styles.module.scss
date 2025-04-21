@@ -6,11 +6,11 @@
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
+    gap:  var(--m60) var(--m30);
   }
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
     width: 100%;
-    gap: var(--m30) var(--m60);
   }
 }
