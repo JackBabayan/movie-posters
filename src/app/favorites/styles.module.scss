@@ -18,7 +18,7 @@
   .favoritesGrid {
     display: grid;
     gap: var(--m60) var(--m40);
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 
     @media (max-width: 480px) {
       grid-template-columns: 1fr;
