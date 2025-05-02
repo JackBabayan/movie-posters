@@ -1,12 +1,11 @@
 'use client';
 
-import React from 'react';
-import useSWR from 'swr';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Genre } from '@/types';
-import { tmdbApi, SWR_KEYS } from '@/lib/api/tmdb';
+import { tmdbApi } from '@/lib/api/tmdb';
+import { useGenres } from '@/lib/store/genres';
 import classNames from 'classnames';
-
+import { InfoMessage } from '@/components/common/InfoMessage';
 import { ClearIcon } from '@/styles/icon';
 import styles from './styles.module.scss';
 
@@ -21,11 +20,38 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onGenreSelect,
   onClearGenres,
 }) => {
-  const { data, error, isLoading } = useSWR<{
-    genres: Genre[];
-  }>(SWR_KEYS.genres, () => tmdbApi.getGenres());
+  const {
+    genres,
+    isLoading,
+    error,
+    setGenres,
+    setLoading,
+    setError,
+    lastUpdate
+  } = useGenres();
 
-  const genres = data?.genres ?? [];
+  useEffect(() => {
+    const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 часа
+    const isCacheValid = lastUpdate && (Date.now() - lastUpdate < CACHE_DURATION);
+    const shouldLoadGenres = !isCacheValid && !isLoading && genres.length === 0;
+
+    const loadGenres = async () => {
+      try {
+        setLoading(true);
+        const response = await tmdbApi.getGenres();
+        setGenres(response.genres);
+      } catch (err) {
+        console.error('Ошибка загрузки жанров:', err);
+        setError('Не удалось загрузить жанры');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (shouldLoadGenres) {
+      loadGenres();
+    }
+  }, [genres.length, isLoading, lastUpdate, setError, setGenres, setLoading]);
 
   return (
     <AnimatePresence>
@@ -56,7 +82,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
 
           {error && !isLoading ? (
-            <div><p>Не удалось загрузить жанры</p></div>
+            <InfoMessage message={'Не удалось загрузить жанры'} />
           ) : (
             <ul className={styles.sidebarList}>
               {genres.map((genre) => (
@@ -84,13 +110,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
 
 
+// Назначение: Фильтрация фильмов по жанрам.
 // Технологии:
-// - SWR для загрузки жанров
-// - CSS Modules для стилей
-// - Framer Motion для анимаций
-
-// Особенности:
-// - Множественный выбор жанров
-// - Синхронизация с URL
-// - Мобильная адаптация
-// - Анимации выбора
+// SWR для кэширования жанров
+// CSS анимации для интерактивности
+// Адаптивный дизайн
+// Принцип работы:
+// Загружает список жанров
+// Поддерживает множественный выбор
+// Синхронизирует с URL параметрами
+// Анимирует выбранные жанры
+// Трансформируется в горизонтальный список на мобильных

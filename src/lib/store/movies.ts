@@ -10,12 +10,17 @@ interface MoviesState {
   currentPage: number;
   isLoading: boolean;
   error: string | null;
-  setMovies: (response: MovieListResponse) => void;
+  lastQuery: string;
+  setMovies: (response: MovieListResponse, query: string) => void;
   addMovies: (response: MovieListResponse) => void;
   setLoading: (isLoading: boolean) => void;
   setError: (error: string | null) => void;
-  clearMovies: () => void;
+  setHasMore: (hasMore: boolean) => void;
+  hasMore: boolean;
+  lastUpdate: number;
 }
+
+const CACHE_DURATION = 5 * 60 * 1000; // 5 минут
 
 export const useMoviesStore = create<MoviesState>()(
   persist(
@@ -25,23 +30,37 @@ export const useMoviesStore = create<MoviesState>()(
       currentPage: 1,
       isLoading: false,
       error: null,
+      lastQuery: '',
+      hasMore: true,
+      lastUpdate: 0,
 
-      setMovies: (response) => {
+      setMovies: (response, query = '') => {
         set({
           movies: response.results,
           totalPages: response.total_pages,
           currentPage: response.page,
-          error: null
+          error: null,
+          lastQuery: query,
+          hasMore: response.page < response.total_pages,
+          lastUpdate: Date.now(),
         });
       },
 
       addMovies: (response) => {
-        set((state) => ({
-          movies: [...state.movies, ...response.results],
-          totalPages: response.total_pages,
-          currentPage: response.page,
-          error: null
-        }));
+        set((state) => {
+          const newMovies = response.results.filter(
+            (newMovie) => !state.movies.some((existingMovie) => existingMovie.id === newMovie.id),
+          );
+
+          return {
+            movies: [...state.movies, ...newMovies],
+            totalPages: response.total_pages,
+            currentPage: response.page,
+            error: null,
+            hasMore: response.page < response.total_pages,
+            lastUpdate: Date.now(),
+          };
+        });
       },
 
       setLoading: (isLoading) => {
@@ -52,14 +71,9 @@ export const useMoviesStore = create<MoviesState>()(
         set({ error });
       },
 
-      clearMovies: () => {
-        set({
-          movies: [],
-          totalPages: 0,
-          currentPage: 1,
-          error: null
-        });
-      }
+      setHasMore: (hasMore) => {
+        set({ hasMore });
+      },
     }),
     {
       name: 'movies-storage',
@@ -91,35 +105,19 @@ export const useMoviesStore = create<MoviesState>()(
           }
         },
       },
-    }
-  )
+    },
+  ),
 );
 
-// Хук для работы с фильмами
 export const useMovies = () => {
-  const { 
-    movies, 
-    totalPages, 
-    currentPage, 
-    isLoading, 
-    error,
-    setMovies, 
-    addMovies, 
-    setLoading, 
-    setError, 
-    clearMovies 
-  } = useMoviesStore();
+  const store = useMoviesStore();
+
+  const isCacheValid = () => {
+    return store.movies.length > 0 && Date.now() - store.lastUpdate < CACHE_DURATION;
+  };
 
   return {
-    movies,
-    totalPages,
-    currentPage,
-    isLoading,
-    error,
-    setMovies,
-    addMovies,
-    setLoading,
-    setError,
-    clearMovies
+    ...store,
+    isCacheValid,
   };
-}; 
+};

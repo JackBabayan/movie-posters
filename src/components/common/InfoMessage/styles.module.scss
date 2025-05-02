@@ -1,11 +1,11 @@
-.errorMessage {
+.InfoMessage {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--inboxPaddingLg);
 
-  .errorMessageText {
+  .InfoMessageText {
     font-size: var(--pL);
     font-weight: 500;
     font-family: 'Inter', sans-serif;

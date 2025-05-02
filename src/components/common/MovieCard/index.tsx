@@ -21,11 +21,6 @@ interface MovieCardProps {
 
 export const MovieCard: React.FC<MovieCardProps> = ({ movie, isPriority = false }) => {
 
-  const truncateOverview = (text: string, maxLength: number = 120) => {
-    if (text.length <= maxLength) return text;
-    return text.slice(0, maxLength) + '...';
-  };
-
   return (
     <motion.div
       className={styles.cardContainer}
@@ -68,7 +63,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, isPriority = false 
           {movie.title}
         </h3>
         {movie.overview && (
-          <p className={styles.overview}>{truncateOverview(movie.overview)}</p>
+          <p className={styles.overview}>{movie.overview}</p>
         )}
       </div>
     </motion.div>
@@ -76,14 +71,14 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, isPriority = false 
 };
 
 
+// Назначение: Отображение информации о фильме в виде карточки.
 // Технологии:
-// - Next/Image для оптимизации изображений
-// - Framer Motion для анимаций
-// - CSS Modules для стилей
-
-// Особенности:
-// - Оптимизированные постеры
-// - Анимации при наведении
-// - Отображение рейтинга
-// - Кнопка добавления в избранное
-// - Адаптивный дизайн
+// Next.js Image для оптимизации изображений
+// Framer Motion для анимаций
+// CSS Modules для стилизации
+// Принцип работы:
+// Отображает постер фильма с оптимизацией
+// Показывает рейтинг, дату выхода
+// Анимирует появление и hover-эффекты
+// Интегрируется с системой избранного
+// Адаптируется под разные размеры экрана

@@ -7,17 +7,17 @@ import { AttentionIcon } from '@/styles/icon'
 
 import styles from "./styles.module.scss"
 
-interface ErrorMessageProps {
+interface InfoMessageProps {
   message: string;
   link?: string;
   linkText?: string;
   retry?: () => void;
 }
 
-export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, retry, link, linkText }) => {
+export const InfoMessage: React.FC<InfoMessageProps> = ({ message, retry, link, linkText }) => {
   return (
     <motion.div
-      className={styles.errorMessage}
+      className={styles.InfoMessage}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -25,7 +25,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, retry, link
 
       <AttentionIcon />
 
-      <div className={styles.errorMessageText}>{message}</div>
+      <div className={styles.InfoMessageText}>{message}</div>
       {retry && (
         <button
           className={'btnGlobal'}

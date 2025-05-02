@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MovieCard } from '@/components/common/MovieCard';
 import { useFavorites } from '@/lib/store/favorites';
 import { ROUTES } from '@/lib/utils/constants';
-import { ErrorMessage } from '@/components/common/ErrorMessage';
+import { InfoMessage } from '@/components/common/InfoMessage';
 
 import styles from './styles.module.scss'
 
@@ -84,7 +84,7 @@ export default function FavoritesPage() {
       </div>
 
       {favorites.length === 0 ? (
-        <ErrorMessage message={'У вас пока нет избранных фильмов'} linkText={'Перейти к каталогу фильмов'} link={ROUTES.HOME} />
+        <InfoMessage message={'У вас пока нет избранных фильмов'} linkText={'Перейти к каталогу фильмов'} link={ROUTES.HOME} />
       ) : (
         <motion.div
           className={styles.favoritesGrid}
@@ -149,3 +149,17 @@ export default function FavoritesPage() {
     </div>
   );
 }
+
+
+// FavoritesList
+// Назначение: Управление списком избранных фильмов.
+// Технологии:
+// LocalStorage для хранения данных
+// Framer Motion для анимаций
+// Модальные окна для подтверждений
+// Принцип работы:
+// Читает список избранного из хранилища
+// Отображает сетку избранных фильмов
+// Поддерживает удаление отдельных фильмов
+// Предоставляет очистку всего списка
+// Анимирует изменения в списке

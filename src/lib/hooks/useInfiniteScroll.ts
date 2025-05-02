@@ -5,13 +5,14 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 interface UseInfiniteScrollOptions {
   threshold?: number;
   initialPage?: number;
+  enabled?: boolean;
 }
 
 export function useInfiniteScroll(
   callback: (page: number) => Promise<void>,
   options: UseInfiniteScrollOptions = {},
 ) {
-  const { threshold = 200, initialPage = 1 } = options;
+  const { threshold = 200, initialPage = 1, enabled = true } = options;
   const [page, setPage] = useState<number>(initialPage);
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -38,7 +39,7 @@ export function useInfiniteScroll(
   );
 
   useEffect(() => {
-    if (loading) return;
+    if (!enabled || loading) return;
 
     if (observer.current) {
       observer.current.disconnect();
@@ -58,7 +59,7 @@ export function useInfiniteScroll(
         observer.current.disconnect();
       }
     };
-  }, [handleObserver, threshold, loading]);
+  }, [handleObserver, threshold, loading, enabled]);
 
   const resetPage = useCallback(() => {
     setPage(initialPage);

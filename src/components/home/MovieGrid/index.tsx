@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useEffect, useState, useCallback, memo } from 'react';
+import React, { useEffect, useCallback, memo } from 'react';
 import { MovieCard } from '@/components/common/MovieCard';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
-import { ErrorMessage } from '@/components/common/ErrorMessage';
+import { InfoMessage } from '@/components/common/InfoMessage';
 import { useInfiniteScroll } from '@/lib/hooks/useInfiniteScroll';
 import { tmdbApi } from '@/lib/api/tmdb';
+import { useMovies } from '@/lib/store/movies';
 import { Movie } from '@/types';
 
 import styles from "./styles.module.scss"
@@ -16,7 +17,6 @@ interface MovieGridProps {
 }
 
 const MemoizedMovieCard = memo(MovieCard);
-
 
 const useFilteredMovies = (movies: Movie[], selectedGenres: number[]) => {
   return useCallback(() => {
@@ -31,75 +31,80 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
   searchQuery,
   selectedGenres
 }) => {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    movies,
+    isLoading,
+    error,
+    setMovies,
+    addMovies,
+    setLoading,
+    setError,
+    totalPages,
+    currentPage,
+    lastQuery,
+    hasMore,
+    setHasMore,
+    isCacheValid
+  } = useMovies();
 
   useEffect(() => {
     const loadMovies = async () => {
       try {
-        setIsLoading(true);
+        setLoading(true);
         setError(null);
 
         const response = searchQuery
           ? await tmdbApi.searchMovies(searchQuery, 1)
           : await tmdbApi.getPopularMovies(1);
 
-        setMovies(response.results);
+        setMovies(response, searchQuery);
       } catch (err) {
         console.error('Ошибка загрузки фильмов:', err);
         setError('Не удалось загрузить фильмы');
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
-    loadMovies();
-  }, [searchQuery]);
+    const shouldLoadMovies =
+      (!isCacheValid() && movies.length === 0) || // кэш устарел или пуст
+      lastQuery !== searchQuery || // изменился поисковый запрос
+      (lastQuery && !searchQuery); // возврат к популярным фильмам
+
+    if (shouldLoadMovies) {
+      loadMovies();
+    }
+  }, [searchQuery, setMovies, setLoading, setError, lastQuery, movies.length, isCacheValid]);
 
   const loadMoreMovies = useCallback(async (page: number) => {
+    if (!hasMore || isLoading) return;
+
     try {
-      setIsLoading(true);
+      setLoading(true);
 
       const response = searchQuery
         ? await tmdbApi.searchMovies(searchQuery, page)
         : await tmdbApi.getPopularMovies(page);
 
-      if (response.page >= response.total_pages) {
-        setHasMore(false);
-        return;
-      }
-
-      const newMovies = response.results.filter(
-        newMovie => !movies.some(existingMovie => existingMovie.id === newMovie.id)
-      );
-
-      if (newMovies.length > 0) {
-        setMovies(prevMovies => [...prevMovies, ...newMovies]);
-      } else {
-        setHasMore(false);
-      }
+      addMovies(response);
     } catch (err) {
       console.error('Ошибка загрузки дополнительных фильмов:', err);
       setError('Не удалось загрузить дополнительные фильмы');
       setHasMore(false);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
-  }, [searchQuery, movies]);
+  }, [searchQuery, addMovies, setLoading, setError, hasMore, isLoading, setHasMore]);
 
-  const { loaderRef, hasMore, setHasMore } = useInfiniteScroll(loadMoreMovies, {
-    initialPage: 2
+  const { loaderRef } = useInfiniteScroll(loadMoreMovies, {
+    initialPage: currentPage + 1,
+    enabled: hasMore && !isLoading
   });
-
-  useEffect(() => {
-    setHasMore(true);
-  }, [searchQuery, setHasMore]);
 
   const filteredMovies = useFilteredMovies(movies, selectedGenres)();
 
   if (error) {
-    return <ErrorMessage message={error} />;
+    return <InfoMessage message={error} />;
   }
 
   return (
@@ -108,7 +113,7 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
         <LoadingSpinner />
         :
         filteredMovies.length === 0 ?
-          <ErrorMessage message={'Фильмы не найдены. Попробуйте другой запрос или фильтр.'} />
+          <InfoMessage message={'Фильмы не найдены. Попробуйте другой запрос или фильтр.'} />
           :
           <div>
             <div className={styles.MovieCardWrapper}>
@@ -126,3 +131,15 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
     </div>
   );
 };
+
+// Назначение: Отображение сетки фильмов с поддержкой бесконечной прокрутки.
+// Технологии:
+// useInfiniteScroll хук для бесконечной прокрутки
+// memo для оптимизации рендеринга
+// CSS Grid для адаптивной сетки
+// Принцип работы:
+// Получает начальные фильмы через TMDB API
+// Отслеживает скролл через useInfiniteScroll
+// Подгружает новые фильмы при достижении конца страницы
+// Фильтрует дубликаты фильмов
+// Поддерживает состояния загрузки и ошибок

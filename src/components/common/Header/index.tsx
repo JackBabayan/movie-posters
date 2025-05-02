@@ -5,11 +5,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ThemeSwitcher } from '../ThemeSwitcher';
+import { ThemeSwitcher } from '@/components/common/ThemeSwitcher';
 import { ROUTES } from '@/lib/utils/constants';
-import classNames from "classnames";
+import classNames from 'classnames';
 
-import styles from "./styles.module.scss"
+import styles from './styles.module.scss'
 
 export const Header: React.FC = () => {
   const pathname = usePathname();

@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import useSWR from 'swr';
 import { MovieDetail } from '@/types';
@@ -9,7 +9,7 @@ import { MovieDetails } from '@/components/movie/MovieDetails';
 import { CastList } from '@/components/movie/CastList';
 import TrailerCarousel from '@/components/movie/TrailerCarousel';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
-import { ErrorMessage } from '@/components/common/ErrorMessage';
+import { InfoMessage } from '@/components/common/InfoMessage';
 
 import styles from './styles.module.scss';
 
@@ -24,7 +24,7 @@ export default function MoviePage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  
+
   const { data: movie, error, isLoading } = useSWR<MovieDetail>(
     [SWR_KEYS.movieDetails(movieId), movieId],
     fetcher,
@@ -33,16 +33,16 @@ export default function MoviePage() {
     }
   );
 
-  
+
   if (isNaN(movieId) || movieId <= 0) {
     return (
-      <ErrorMessage
+      <InfoMessage
         message="Неверный ID фильма. Пожалуйста, вернитесь на главную страницу."
       />
     );
   }
 
-  
+
   if (isLoading) {
     return (
       <div className={styles.loadingContainer}>
@@ -51,10 +51,10 @@ export default function MoviePage() {
     );
   }
 
-  
+
   if (error || !movie) {
     return (
-      <ErrorMessage
+      <InfoMessage
         message="Не удалось загрузить информацию о фильме. Пожалуйста, попробуйте позже."
       />
     );

@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Video, VideosResponse } from '@/types';
 import { tmdbApi, SWR_KEYS } from '@/lib/api/tmdb';
-import { ErrorMessage } from '@/components/common/ErrorMessage';
+import { InfoMessage } from '@/components/common/InfoMessage';
 import { VIDEO_TYPES, VIDEO_SITES, UI } from '@/lib/utils/constants';
 import { LeftIcon, RightIcon, PlayIcon, PauseIcon } from '@/styles/icon';
 import styles from './styles.module.scss';
@@ -65,7 +65,7 @@ export default function TrailerCarousel({ movieId }: TrailerCarouselProps) {
   }, [trailers, currentIndex]);
 
   if (isNaN(movieId) || movieId <= 0) {
-    return <ErrorMessage message="Неверный ID фильма" />;
+    return <InfoMessage message="Неверный ID фильма" />;
   }
 
   if (!isLoading && (!trailers || trailers.length === 0)) {
@@ -77,7 +77,7 @@ export default function TrailerCarousel({ movieId }: TrailerCarouselProps) {
   }
 
   if (error) {
-    return <ErrorMessage message="Не удалось загрузить трейлеры" />;
+    return <InfoMessage message="Не удалось загрузить трейлеры" />;
   }
 
 
@@ -148,3 +148,16 @@ export default function TrailerCarousel({ movieId }: TrailerCarouselProps) {
       : null
   );
 }
+
+
+// Назначение: Показ трейлеров фильма в формате карусели.
+// Технологии:
+// YouTube API интеграция
+// Framer Motion для анимаций
+// Автоматическое воспроизведение
+// Принцип работы:
+// Загружает список трейлеров
+// Фильтрует по типу видео
+// Поддерживает навигацию
+// Автоматическое воспроизведение
+// Адаптивный размер плеера

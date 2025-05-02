@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { tmdbApi, SWR_KEYS, getImageUrl } from '@/lib/api/tmdb';
 import { Credits } from '@/types';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
-import { ErrorMessage } from '@/components/common/ErrorMessage';
+import { InfoMessage } from '@/components/common/InfoMessage';
 import { UI } from '@/lib/utils/constants';
 import styles from './styles.module.scss';
 
@@ -32,7 +32,7 @@ export const CastList: React.FC<CastListProps> = ({ movieId }) => {
 
   // Проверяем валидность ID фильма
   if (isNaN(movieId) || movieId <= 0) {
-    return <ErrorMessage message="Неверный ID фильма" />;
+    return <InfoMessage message="Неверный ID фильма" />;
   }
 
   // Определяем, сколько актеров показывать изначально
@@ -78,7 +78,7 @@ export const CastList: React.FC<CastListProps> = ({ movieId }) => {
   }
 
   if (error) {
-    return <ErrorMessage message="Не удалось загрузить информацию об актерах" />;
+    return <InfoMessage message="Не удалось загрузить информацию об актерах" />;
   }
 
   if (!filteredCast.length) {
@@ -147,3 +147,16 @@ export const CastList: React.FC<CastListProps> = ({ movieId }) => {
     </div>
   );
 };
+
+
+// Назначение: Отображение списка актеров фильма.
+// Технологии:
+// Framer Motion для анимаций
+// CSS Grid для сетки
+// Ленивая загрузка изображений
+// Принцип работы:
+// Загружает информацию об актерах
+// Фильтрует актеров с фото
+// Показывает ограниченное количество изначально
+// Поддерживает раскрытие полного списка
+// Анимирует появление элементов
