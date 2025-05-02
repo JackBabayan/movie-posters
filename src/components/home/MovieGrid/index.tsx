@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useCallback, memo } from 'react';
+import React, { useEffect, useCallback, memo, useRef } from 'react';
 import { MovieCard } from '@/components/common/MovieCard';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { InfoMessage } from '@/components/common/InfoMessage';
@@ -46,6 +46,8 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
     isCacheValid
   } = useMovies();
 
+  const isFirstLoad = useRef(true);
+
   useEffect(() => {
     const loadMovies = async () => {
       try {
@@ -65,15 +67,11 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
       }
     };
 
-    const shouldLoadMovies =
-      (!isCacheValid() && movies.length === 0) || // кэш устарел или пуст
-      lastQuery !== searchQuery || // изменился поисковый запрос
-      (lastQuery && !searchQuery); // возврат к популярным фильмам
-
-    if (shouldLoadMovies) {
+    if (isFirstLoad.current || lastQuery !== searchQuery) {
+      isFirstLoad.current = false;
       loadMovies();
     }
-  }, [searchQuery, setMovies, setLoading, setError, lastQuery, movies, isCacheValid]);
+  }, [searchQuery, setMovies, setLoading, setError, lastQuery]);
 
   const loadMoreMovies = useCallback(async (page: number) => {
     if (!hasMore || isLoading) return;
