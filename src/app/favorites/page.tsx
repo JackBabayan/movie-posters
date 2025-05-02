@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MovieCard } from '@/components/home/MovieCard';
+import { MovieCard } from '@/components/common/MovieCard';
 import { useFavorites } from '@/lib/store/favorites';
 import { ROUTES } from '@/lib/utils/constants';
 import { ErrorMessage } from '@/components/common/ErrorMessage';
@@ -29,7 +29,7 @@ export default function FavoritesPage() {
     exit: { opacity: 0, scale: 0.8, transition: { duration: 0.2 } }
   };
 
-  
+
   const modalVariants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: {
@@ -50,17 +50,17 @@ export default function FavoritesPage() {
     }
   };
 
-  
+
   const handleClearFavoritesClick = () => {
     setShowConfirmation(true);
   };
 
-  
+
   const handleCancelClear = () => {
     setShowConfirmation(false);
   };
 
-  
+
   const handleConfirmClear = () => {
     clearFavorites();
     setShowConfirmation(false);
@@ -107,7 +107,6 @@ export default function FavoritesPage() {
         </motion.div>
       )}
 
-      {/* Модальное окно подтверждения */}
       <AnimatePresence>
         {showConfirmation && (
           <motion.div

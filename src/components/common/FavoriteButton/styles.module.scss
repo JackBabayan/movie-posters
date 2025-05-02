@@ -4,19 +4,12 @@
   padding: 11px;
   display: flex;
   transition: all var(--trTime1) ease-in-out;
-  svg {
-    fill: transparent;
-    transition: all var(--trTime1) ease-in-out;
-  }
-  
+  color: var(--light-text);
+
   &.active {
     background: var(--gradientBackground);
     background-size: 1900%;
     animation: gradient 80s ease infinite, pulse 30s ease-in-out infinite alternate;
-    svg {
-      stroke: var(--light-text);
-      fill: var(--light-text);
-    }
   }
 }
 

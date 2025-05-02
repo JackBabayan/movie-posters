@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import useSWR from 'swr';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Genre } from '@/types';
 import { tmdbApi, SWR_KEYS } from '@/lib/api/tmdb';
-import classNames from "classnames";
+import classNames from 'classnames';
 
-import { ClearIcon } from '@/styles/icon'
-
-import styles from "./styles.module.scss"
+import { ClearIcon } from '@/styles/icon';
+import styles from './styles.module.scss';
 
 interface SidebarProps {
   selectedGenres: number[];
@@ -17,30 +16,16 @@ interface SidebarProps {
   onClearGenres: () => void;
 }
 
-const fetcher = () => tmdbApi.getGenres();
-
 export const Sidebar: React.FC<SidebarProps> = ({
   selectedGenres,
   onGenreSelect,
-  onClearGenres
+  onClearGenres,
 }) => {
-  const { data, error, isLoading } = useSWR(SWR_KEYS.genres, fetcher);
-  const [genres, setGenres] = useState<Genre[]>([]);
+  const { data, error, isLoading } = useSWR<{
+    genres: Genre[];
+  }>(SWR_KEYS.genres, () => tmdbApi.getGenres());
 
-  useEffect(() => {
-    if (data?.genres) {
-      setGenres(data.genres);
-    }
-  }, [data]);
-
-
-  const handleGenreClick = (genreId: number) => {
-    onGenreSelect(genreId);
-  };
-
-  const isGenreSelected = (genreId: number) => {
-    return selectedGenres.includes(genreId);
-  };
+  const genres = data?.genres ?? [];
 
   return (
     <AnimatePresence>
@@ -70,24 +55,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
             )}
           </div>
 
-          {!isLoading &&
-            error ? (
-            <div>
-              <p>Не удалось загрузить жанры</p>
-            </div>
+          {error && !isLoading ? (
+            <div><p>Не удалось загрузить жанры</p></div>
           ) : (
             <ul className={styles.sidebarList}>
               {genres.map((genre) => (
-                <li key={genre.id}
+                <li
+                  key={genre.id}
                   className={styles.sidebarItem}
-                  onClick={() => handleGenreClick(genre.id)}
+                  onClick={() => onGenreSelect(genre.id)}
                 >
-                  <span className={classNames(styles.sidebarItemContent, {
-                    [styles.active]: isGenreSelected(genre.id)
-                  })}>
+                  <span
+                    className={classNames(styles.sidebarItemContent, {
+                      [styles.active]: selectedGenres.includes(genre.id),
+                    })}
+                  >
                     {genre.name}
                   </span>
-
                 </li>
               ))}
             </ul>
@@ -97,3 +81,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
     </AnimatePresence>
   );
 };
+
+
+
+// Технологии:
+// - SWR для загрузки жанров
+// - CSS Modules для стилей
+// - Framer Motion для анимаций
+
+// Особенности:
+// - Множественный выбор жанров
+// - Синхронизация с URL
+// - Мобильная адаптация
+// - Анимации выбора

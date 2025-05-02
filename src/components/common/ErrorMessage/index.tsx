@@ -14,7 +14,7 @@ interface ErrorMessageProps {
   retry?: () => void;
 }
 
-export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, retry, link , linkText }) => {
+export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, retry, link, linkText }) => {
   return (
     <motion.div
       className={styles.errorMessage}
@@ -38,7 +38,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, retry, link
 
       {
         link && linkText && (
-          <Link href={link}  className={'btnGlobal'}>
+          <Link href={link} className={'btnGlobal'}>
             {linkText}
           </Link>
         )
@@ -46,3 +46,13 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, retry, link
     </motion.div>
   );
 };
+
+
+// Технологии:
+// - CSS Modules для стилей
+// - Next/Link для навигации
+
+// Особенности:
+// - Кастомизируемые сообщения
+// - Опциональная кнопка действия
+// - Адаптивный дизайн

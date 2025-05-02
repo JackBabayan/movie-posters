@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Star, Clock, Calendar } from 'lucide-react';
+import { StarIcon, CalendarIcon, ClockIcon } from '@/styles/icon';
 import { formatDate, formatRuntime, formatNumber } from '@/utils/formatters';
 import { MovieDetail } from '@/types';
 import { FavoriteButton } from '@/components/common/FavoriteButton';
@@ -64,19 +64,19 @@ export const MovieDetails = ({ movie }: MovieDetailsProps) => {
         </div>
 
         <div className={styles.info}>
-          <h1 className={styles.title}>
+          <h2 className={styles.title}>
             {title}
             <span className={styles.year}>
               {' '}
               ({releaseYear})
             </span>
-          </h1>
+          </h2>
 
           {tagline && <p className={styles.tagline}>{tagline}</p>}
 
           <div className={styles.meta}>
             <div className={styles.metaItem}>
-              <Star size={18} />
+              <StarIcon />
               <div className={styles.rating}>
                 <span className={styles.ratingValue}>
                   {vote_average.toFixed(1)}
@@ -88,12 +88,12 @@ export const MovieDetails = ({ movie }: MovieDetailsProps) => {
             </div>
 
             <div className={styles.metaItem}>
-              <Clock size={18} />
+              <ClockIcon />
               {formatRuntime(runtime)}
             </div>
 
             <div className={styles.metaItem}>
-              <Calendar size={18} />
+              <CalendarIcon />
               {formatDate(release_date)}
             </div>
           </div>

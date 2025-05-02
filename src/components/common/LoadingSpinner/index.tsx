@@ -3,7 +3,7 @@
 import React from 'react';
 import styles from "./styles.module.scss"
 
-export const LoadingSpinner= () => {
+export const LoadingSpinner = () => {
   return (
     <div className={styles.loaderContainer}>
       <div className={styles.loader}></div>
@@ -11,3 +11,13 @@ export const LoadingSpinner= () => {
     </div>
   );
 };
+
+
+// Технологии:
+// - CSS анимации
+// - CSS Modules для стилей
+
+// Особенности:
+// - Плавная анимация
+// - Настраиваемый размер
+// - Оптимизация производительности

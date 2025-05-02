@@ -6,8 +6,8 @@ import useSWR from 'swr';
 import { motion, AnimatePresence } from 'framer-motion';
 import { tmdbApi, SWR_KEYS, getImageUrl } from '@/lib/api/tmdb';
 import { Credits } from '@/types';
-import { LoadingSpinner } from '../../common/LoadingSpinner';
-import { ErrorMessage } from '../../common/ErrorMessage';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { ErrorMessage } from '@/components/common/ErrorMessage';
 import { UI } from '@/lib/utils/constants';
 import styles from './styles.module.scss';
 

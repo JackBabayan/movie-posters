@@ -9,7 +9,7 @@ interface UseInfiniteScrollOptions {
 
 export function useInfiniteScroll(
   callback: (page: number) => Promise<void>,
-  options: UseInfiniteScrollOptions = {}
+  options: UseInfiniteScrollOptions = {},
 ) {
   const { threshold = 200, initialPage = 1 } = options;
   const [page, setPage] = useState<number>(initialPage);
@@ -17,7 +17,7 @@ export function useInfiniteScroll(
   const [hasMore, setHasMore] = useState<boolean>(true);
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const observer = useRef<IntersectionObserver | null>(null);
-  
+
   const handleObserver = useCallback(
     async (entries: IntersectionObserverEntry[]) => {
       const [entry] = entries;
@@ -25,7 +25,7 @@ export function useInfiniteScroll(
         setLoading(true);
         try {
           await callback(page);
-          setPage(prevPage => prevPage + 1);
+          setPage((prevPage) => prevPage + 1);
         } catch (error) {
           console.error('Ошибка загрузки контента:', error);
           setHasMore(false);
@@ -34,25 +34,25 @@ export function useInfiniteScroll(
         }
       }
     },
-    [callback, page, hasMore, loading]
+    [callback, page, hasMore, loading],
   );
 
   useEffect(() => {
     if (loading) return;
-    
+
     if (observer.current) {
       observer.current.disconnect();
     }
-    
+
     observer.current = new IntersectionObserver(handleObserver, {
       rootMargin: `0px 0px ${threshold}px 0px`,
-      threshold: 0.1
+      threshold: 0.1,
     });
-    
+
     if (loaderRef.current) {
       observer.current.observe(loaderRef.current);
     }
-    
+
     return () => {
       if (observer.current) {
         observer.current.disconnect();

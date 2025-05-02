@@ -17,3 +17,8 @@ export function useDebounce<T>(value: T, delay: number = 500): T {
 
   return debouncedValue;
 }
+
+// Особенности:
+// - Оптимизация количества запросов
+// - Настраиваемая задержка
+// - Очистка таймеров

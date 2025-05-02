@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useCallback, memo } from 'react';
-import { MovieCard } from '../MovieCard';
+import { MovieCard } from '@/components/common/MovieCard';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { ErrorMessage } from '@/components/common/ErrorMessage';
 import { useInfiniteScroll } from '@/lib/hooks/useInfiniteScroll';
@@ -116,11 +116,11 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
                 <MemoizedMovieCard key={movie.id} movie={movie} />
               ))}
             </div>
-              {hasMore && (
-                <div ref={loaderRef}>
-                  {isLoading && <LoadingSpinner />}
-                </div>
-              )}
+            {hasMore && (
+              <div ref={loaderRef}>
+                {isLoading && <LoadingSpinner />}
+              </div>
+            )}
           </div>
       }
     </div>

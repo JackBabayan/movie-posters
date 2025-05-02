@@ -1,47 +1,50 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { SEARCH_DEBOUNCE_INTERVAL } from '@/lib/utils/constants';
-import classNames from "classnames";
+import classNames from 'classnames';
 
-import { CloseIcon, SearchIcon } from '@/styles/icon'
-import styles from "./styles.module.scss"
+import { CloseIcon, SearchIcon } from '@/styles/icon';
+import styles from './styles.module.scss';
 
 interface SearchBarProps {
-  initialValue?: string;
   onSearch?: (query: string) => void;
   autoFocus?: boolean;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
-  initialValue = '',
   onSearch,
-  autoFocus = false
+  autoFocus = false,
 }) => {
-  const [searchTerm, setSearchTerm] = useState(initialValue);
-  const [isFocused, setIsFocused] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const initialQuery = useMemo(() => searchParams.get('q') || '', [searchParams]);
+  const [searchTerm, setSearchTerm] = useState(initialQuery);
+  const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const debouncedSearchTerm = useDebounce(searchTerm, SEARCH_DEBOUNCE_INTERVAL);
 
-  const updateSearch = useCallback((term: string) => {
-    if (onSearch) {
-      onSearch(term);
-    } else {
-      const params = new URLSearchParams(searchParams.toString());
-      if (term.trim()) {
-        params.set('q', term.trim());
+  const updateSearch = useCallback(
+    (term: string) => {
+      if (onSearch) {
+        onSearch(term);
       } else {
-        params.delete('q');
+        const params = new URLSearchParams(searchParams.toString());
+        if (term.trim()) {
+          params.set('q', term.trim());
+        } else {
+          params.delete('q');
+        }
+        router.push(`/?${params.toString()}`);
       }
-      router.push(`/?${params.toString()}`);
-    }
-  }, [onSearch, router, searchParams]);
+    },
+    [onSearch, router, searchParams]
+  );
 
   useEffect(() => {
     updateSearch(debouncedSearchTerm);
@@ -59,9 +62,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   const handleClearSearch = () => {
     setSearchTerm('');
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    inputRef.current?.focus();
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -71,7 +72,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <form
       className={classNames(styles.searchContainer, {
-        [styles.isFocused]: isFocused
+        [styles.isFocused]: isFocused,
       })}
       onSubmit={handleSubmit}
     >
@@ -102,6 +103,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           </motion.button>
         )}
       </AnimatePresence>
+
       <button type="submit" className={styles.searchBtn}>
         <SearchIcon />
       </button>

@@ -8,29 +8,29 @@ export const useFavoritesStore = create<FavoritesState>()(
   persist(
     (set, get) => ({
       favorites: [],
-      
+
       addFavorite: (movie: MovieDetail) => {
         set((state) => {
-          if (state.favorites.some(fav => fav.id === movie.id)) {
+          if (state.favorites.some((fav) => fav.id === movie.id)) {
             return state;
           }
           return { favorites: [...state.favorites, movie] };
         });
       },
-      
+
       removeFavorite: (movieId: number) => {
         set((state) => ({
-          favorites: state.favorites.filter(movie => movie.id !== movieId)
+          favorites: state.favorites.filter((movie) => movie.id !== movieId),
         }));
       },
-      
+
       isFavorite: (movieId: number) => {
-        return get().favorites.some(movie => movie.id === movieId);
+        return get().favorites.some((movie) => movie.id === movieId);
       },
-      
+
       clearFavorites: () => {
         set({ favorites: [] });
-      }
+      },
     }),
     {
       name: 'favorites-storage',
@@ -48,23 +48,22 @@ export const useFavoritesStore = create<FavoritesState>()(
             if (typeof window !== 'undefined') {
               localStorage.setItem(name, JSON.stringify(value));
             }
-          } catch {
-          }
+          } catch {}
         },
         removeItem: (name) => {
           try {
             if (typeof window !== 'undefined') {
               localStorage.removeItem(name);
             }
-          } catch {
-          }
+          } catch {}
         },
       },
-    }
-  )
+    },
+  ),
 );
 
 export const useFavorites = () => {
-  const { favorites, addFavorite, removeFavorite, isFavorite, clearFavorites } = useFavoritesStore();
+  const { favorites, addFavorite, removeFavorite, isFavorite, clearFavorites } =
+    useFavoritesStore();
   return { favorites, addFavorite, removeFavorite, isFavorite, clearFavorites };
 };

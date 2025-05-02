@@ -20,16 +20,6 @@
       background-color: var(--background-color);
       transition: transform var(--trTime1) ease-in-out;
 
-      &:hover {
-        transform: scale(1.05);
-      }
-
-      @media (max-width: 768px) {
-        &:hover {
-          transform: none;
-        }
-      }
-
       img {
         object-fit: cover;
         transition: opacity var(--trTime1) ease-in-out;

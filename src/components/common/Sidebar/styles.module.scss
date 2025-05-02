@@ -27,7 +27,7 @@
       .title {
         font-size: var(--h3);
         font-weight: 700;
-        color: var(--light-text);
+        color: var(--text-color);
       }
 
       .sidebarClearBtn {
@@ -41,13 +41,14 @@
         border: 1px solid var(--text-color);
         border-radius: 100%;
         transition: all var(--trTime1) ease-in-out;
-        
+
         &:hover {
           top: -10px;
         }
 
         @media (max-width: 768px) {
           top: -10px;
+
           &:hover {
             transform: scale(1.1);
           }
@@ -141,15 +142,19 @@
   0% {
     background-position: 0% 50%;
   }
+
   25% {
     background-position: 50% 100%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   75% {
     background-position: 50% 0%;
   }
+
   100% {
     background-position: 0% 50%;
   }
