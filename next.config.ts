@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
         pathname: '/t/p/**',
       },
     ],
-    minimumCacheTTL: 18000, 
+    minimumCacheTTL: 18000,
   },
   sassOptions: {
     includePaths: ['./src/styles'],
@@ -31,7 +31,7 @@ const nextConfig: NextConfig = {
     ];
   },
   experimental: {
-    optimizeCss: true,
+    optimizeCss: false,
     scrollRestoration: true,
   },
   async headers() {

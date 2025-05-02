@@ -39,7 +39,6 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
     addMovies,
     setLoading,
     setError,
-    totalPages,
     currentPage,
     lastQuery,
     hasMore,
@@ -74,7 +73,7 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
     if (shouldLoadMovies) {
       loadMovies();
     }
-  }, [searchQuery, setMovies, setLoading, setError, lastQuery, movies.length, isCacheValid]);
+  }, [searchQuery, setMovies, setLoading, setError, lastQuery, movies, isCacheValid]);
 
   const loadMoreMovies = useCallback(async (page: number) => {
     if (!hasMore || isLoading) return;
@@ -109,7 +108,7 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
 
   return (
     <div className={'flex alignCenter flexAuto'}>
-      {isLoading && movies.length === 0 ?
+      {isLoading || movies.length === 0 ?
         <LoadingSpinner />
         :
         filteredMovies.length === 0 ?
