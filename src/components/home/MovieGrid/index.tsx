@@ -43,7 +43,6 @@ export const MovieGrid: React.FC<MovieGridProps> = ({
     lastQuery,
     hasMore,
     setHasMore,
-    isCacheValid
   } = useMovies();
 
   const isFirstLoad = useRef(true);
