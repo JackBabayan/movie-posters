@@ -48,6 +48,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       }
     };
 
+    console.log("genres");
+
+
     if (shouldLoadGenres) {
       loadGenres();
     }
