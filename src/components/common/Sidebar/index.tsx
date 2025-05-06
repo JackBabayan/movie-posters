@@ -33,7 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   useEffect(() => {
     const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 часа
     const isCacheValid = lastUpdate && (Date.now() - lastUpdate < CACHE_DURATION);
-    const shouldLoadGenres = !isCacheValid && !isLoading && genres.length === 0;
+    const shouldLoadGenres = !isCacheValid && !isLoading || genres.length === 0;
 
     const loadGenres = async () => {
       try {
